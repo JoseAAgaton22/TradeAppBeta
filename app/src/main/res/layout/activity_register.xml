@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".StartActivity"
+    android:background="@drawable/app_background">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/app_blank_background"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingresa tus datos"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="@color/main"
+            android:textSize="22dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="50dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_mail"
+            android:src="@drawable/ic_mail"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="120dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Correo Electrónico"
+            android:fontFamily="@font/poppins_normal"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="120dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="150dp"
+            android:hint="example03@gmail.com"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:id="@+id/txt_correo"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_person"
+            android:src="@drawable/ic_person"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="220dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:fontFamily="@font/poppins_normal"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="220dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="250dp"
+            android:hint="Nombres"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:id="@+id/txt_nombres"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_ap"
+            android:src="@drawable/ic_ap"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="320dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Apellidos"
+            android:fontFamily="@font/poppins_normal"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="320dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="350dp"
+            android:hint="Apellidos"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:id="@+id/txt_apellidos"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_lock"
+            android:src="@drawable/ic_lock"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="420dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contraseña"
+            android:fontFamily="@font/poppins_normal"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="420dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="60dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="450dp"
+            android:hint="**************"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:id="@+id/txt_contraseña"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_lock_c"
+            android:src="@drawable/ic_lock"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="520dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar contraseña"
+            android:fontFamily="@font/poppins_normal"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginTop="520dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="60dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="550dp"
+            android:hint="**************"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:id="@+id/txt_contraseña_c"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrarme"
+            android:background="@drawable/button_background_selector"
+            android:fontFamily="@font/poppins_bold"
+            android:height="60dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:id="@+id/boton_registrar"
+            android:layout_marginTop="630dp"
+            android:textColor="#fff"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Ya tienes una cuenta?"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="@color/main"
+            android:textAlignment="center"
+            android:layout_marginTop="720dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Iniciar sesión"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/main"
+            android:textAlignment="center"
+            android:layout_marginTop="740dp"
+            android:id="@+id/label_iniciar"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

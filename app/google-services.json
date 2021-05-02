@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "805385586191",
+    "project_id": "tradeapp-e06b1",
+    "storage_bucket": "tradeapp-e06b1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:805385586191:android:b771eddfe8dd312a38057a",
+        "android_client_info": {
+          "package_name": "com.app.tradeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "805385586191-dcphfburvt98k8jldr2b9peshbubcc24.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmDQrpMYTsFF6x4FYCHQxd6ll-E30DgmI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "805385586191-dcphfburvt98k8jldr2b9peshbubcc24.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
