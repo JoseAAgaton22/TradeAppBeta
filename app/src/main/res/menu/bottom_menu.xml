@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    app:cnb_unselectedColor="#101043"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/deudas"
+        android:title="Deudas"
+        android:icon="@drawable/ic_deudas"
+        app:cnb_backgroundColor="#101043"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+
+    <item
+        android:id="@+id/amortizacion"
+        android:title="Amortización"
+        android:icon="@drawable/ic_amortizacion"
+        app:cnb_backgroundColor="#101043"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+
+    <item
+        android:id="@+id/feed"
+        android:title="Feed"
+        android:icon="@drawable/ic_home"
+        app:cnb_backgroundColor="#101043"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+
+    <item
+        android:id="@+id/estadisticas"
+        android:title="Estadisticas"
+        android:icon="@drawable/ic_estadisticas"
+        app:cnb_backgroundColor="#101043"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+
+    <item
+        android:id="@+id/perfil"
+        android:title="Perfil"
+        android:icon="@drawable/ic_perfil"
+        app:cnb_backgroundColor="#101043"
+        app:cnb_iconColor="#fff"
+        app:cnb_textColor="#fff"/>
+
+</menu>

@@ -8,19 +8,19 @@
     tools:context=".MainActivity"
     tools:deviceIds="wear">
 
-    <Button
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cerrar sesión"
-        android:background="@drawable/button_background_selector"
-        android:fontFamily="@font/poppins_bold"
-        android:height="60dp"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:id="@+id/boton_cerrar"
+        android:layout_height="80dp"
+        app:cnb_menuResource="@menu/bottom_menu"
+        android:background="@drawable/bottom_nav_background"
+        app:cnb_iconSize="25dp"
+        app:cnb_radius="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        android:textColor="#fff"/>
+        android:elevation="16dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:cnb_unselectedColor="#101043"
+        app:cnb_textAppearance="@style/fonts"/>
 
 </RelativeLayout>

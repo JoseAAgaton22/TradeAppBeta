@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //Inicializacion de las variables en activity_login
         correo = findViewById(R.id.txt_correo);
         contraseña = findViewById(R.id.txt_contraseña);
         boton_iniciar = findViewById(R.id.boton_iniciar);
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        //se lleva al usuario a la pantalla de registro al presionar la etiqueta "Registrate"
         label_registrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,30 +52,35 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Comprobacion de datos para iniciar sesion
         boton_iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProgressDialog pd = new ProgressDialog(LoginActivity.this);
+                ProgressDialog pd = new ProgressDialog(LoginActivity.this); //popup de carga mientras se comprueban los datos
                 pd.setMessage("Espera un momento");
                 pd.show();
 
-                String str_correo = correo.getText().toString();
+                String str_correo = correo.getText().toString();  //se reciben los datos puestos en los campos de texto
                 String str_contraseña = contraseña.getText().toString();
 
-                if(TextUtils.isEmpty(str_contraseña) || TextUtils.isEmpty(str_correo)){
+                if(TextUtils.isEmpty(str_contraseña) || TextUtils.isEmpty(str_correo)){ //aviso en caso de no haber llenado los campos
                     Toast.makeText(LoginActivity.this, "Debes llenar los campos", Toast.LENGTH_SHORT).show();
+                    pd.dismiss();
                 }
                 else {
+                    //funcion firebase para iniciar sesion con correo y contraseña
                     auth.signInWithEmailAndPassword(str_correo, str_contraseña).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
+                                //En la base de datos se buscará el usuario con el id correspondiente al correo ingresado
                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("usuarios").child(auth.getCurrentUser().getUid());
 
                                 reference.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        pd.dismiss();
+                                        pd.dismiss(); //Una vez iniciada la sesion del usuario, se cierra el popup de carga
+                                        //Se lleva al usuario a la pantalla principal
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(intent);
