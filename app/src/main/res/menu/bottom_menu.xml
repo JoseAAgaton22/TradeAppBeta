@@ -19,8 +19,8 @@
         app:cnb_textColor="#fff"/>
 
     <item
-        android:id="@+id/feed"
-        android:title="Feed"
+        android:id="@+id/home"
+        android:title="Inicio"
         android:icon="@drawable/ic_home"
         app:cnb_backgroundColor="#101043"
         app:cnb_iconColor="#fff"
