@@ -33,7 +33,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private Context mContext;
     private List<User> mUsers;
-    ChipNavigationBar chipNavigationBar;
 
     private FirebaseUser firebaseUser;
 
@@ -112,7 +111,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             apellido = itemView.findViewById(R.id.apellido);
             imagen = itemView.findViewById(R.id.imagen_perfil);
             boton_solicitud = itemView.findViewById(R.id.boton_solicitud);
-            chipNavigationBar = itemView.findViewById(R.id.bottom_menu);
 
         }
     }

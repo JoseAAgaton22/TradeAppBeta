@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.DeudasFragment">
+    tools:context=".Fragments.DeudasFragment"
+    android:paddingBottom="80dp">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="56dp"
@@ -12,7 +13,7 @@
         android:backgroundTint="#101043"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
         android:textAlignment="center"
         android:id="@+id/boton_crear"/>
@@ -23,7 +24,7 @@
         android:backgroundTint="#101043"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="186dp"
+        android:layout_marginBottom="86dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_individual"
         android:id="@+id/individual"/>
@@ -34,10 +35,18 @@
         android:backgroundTint="#101043"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="252dp"
+        android:layout_marginBottom="152dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_group"
         android:id="@+id/grupal"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/recycler_pagos"/>
 
     <LinearLayout
         android:layout_width="350dp"
@@ -45,6 +54,7 @@
         android:background="@drawable/empty_background"
         android:orientation="vertical"
         android:layout_centerVertical="true"
+        android:id="@+id/empty_items"
         android:layout_centerHorizontal="true">
 
         <ImageView
