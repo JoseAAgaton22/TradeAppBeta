@@ -1,14 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.AmortizacionFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="amortizacion" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-45dp">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Amortización"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/main"
+            android:textSize="24dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_credito"
+            android:src="@drawable/ic_credito"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="60dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_normal"
+            android:text="Crédito"
+            android:textColor="@color/main"
+            android:textSize="14dp" />
+
+        <EditText
+            android:id="@+id/txt_credito"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="90dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/poppins_light"
+            android:hint="Valor del crédito"
+            android:inputType="number"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_banco"
+            android:src="@drawable/ic_banco"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="160dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="160dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_normal"
+            android:text="Entidad Bancaria"
+            android:textColor="@color/main"
+            android:textSize="14dp" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="190dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_normal"
+            android:background="@drawable/edit_text_background"/>
+
+        <EditText
+            android:id="@+id/txt_tasaInteres"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/poppins_light"
+            android:hint="Tasa de interés"
+            android:inputType="number"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_below="@id/spinner"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_periodo"
+            android:src="@drawable/ic_periodo"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_normal"
+            android:text="Periodos"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+        <EditText
+            android:id="@+id/txt_periodos"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/poppins_light"
+            android:hint="No. de Periodos"
+            android:inputType="number"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ic_cuota"
+            android:src="@drawable/ic_cuota"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="110dp"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="110dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/poppins_normal"
+            android:text="Cuota"
+            android:textColor="@color/main"
+            android:textSize="14dp"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+        <EditText
+            android:id="@+id/txt_cuota"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="140dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/poppins_light"
+            android:hint="Cuota prevista"
+            android:inputType="number"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+        <Button
+            android:id="@+id/boton_amortizar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="210dp"
+            android:layout_marginEnd="20dp"
+            android:height="60dp"
+            android:background="@drawable/button_background_selector"
+            android:fontFamily="@font/poppins_bold"
+            android:text="AMORTIZAR"
+            android:textColor="#fff"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+        <TextView
+            android:id="@+id/amortizacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="280dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/edit_text_background"
+            android:fontFamily="@font/poppins_light"
+            android:hint="Amortización"
+            android:padding="20dp"
+            android:textColor="@color/main"
+            android:textSize="16dp"
+            android:textAlignment="gravity"
+            android:layout_below="@id/txt_tasaInteres"/>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
