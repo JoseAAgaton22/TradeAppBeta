@@ -3,6 +3,8 @@
     package="com.app.tradeapp">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <uses-feature android:name="android.hardware.type.watch" />
 
@@ -23,16 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:label="@string/title_activity_register">
-        </activity>
-        <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".WalletActivity"/>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>

@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 editor.putString("perfilID", user.getId());
                 editor.apply();
 
-                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new PerfilFragment()).commit();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new PerfilFragment(), "PERFIL").commit();
 
             }
         });

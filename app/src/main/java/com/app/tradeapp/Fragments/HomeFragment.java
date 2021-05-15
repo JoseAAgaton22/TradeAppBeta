@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toolbar;
 
@@ -46,6 +48,7 @@ public class HomeFragment extends Fragment {
     private List<User> mUsers;
     private ImageView cancelar;
     private Button cerrar;
+    private FrameLayout crear_billetera;
 
     EditText barraB;
 
@@ -67,9 +70,18 @@ public class HomeFragment extends Fragment {
         cancelar = view.findViewById(R.id.cancelar);
         cerrar = view.findViewById(R.id.boton_cerrar);
 
+        crear_billetera = view.findViewById(R.id.crear_billetera);
+
         mUsers = new ArrayList<>();
         userAdapter = new UserAdapter(getContext(), mUsers);
         recyclerView.setAdapter(userAdapter);
+
+        crear_billetera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new DeudasFragment(), "PERFIL").commit();
+            }
+        });
 
         barraB.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

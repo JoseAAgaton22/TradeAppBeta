@@ -1,14 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.DeudasFragment">
+    tools:context=".Fragments.DeudasFragment"
+    android:paddingBottom="80dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_add"
+        android:backgroundTint="#101043"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:textAlignment="center"
+        android:id="@+id/boton_crear"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#101043"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="86dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_individual"
+        android:id="@+id/individual"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#101043"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="152dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_group"
+        android:id="@+id/grupal"/>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="deudas" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:id="@+id/recycler_pagos"/>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:background="@drawable/empty_background"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:id="@+id/empty_items"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_warning"
+            android:layout_marginTop="30dp"/>
+    
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aún no hay nada por aquí"
+            android:fontFamily="@font/poppins_light"
+            android:textAlignment="center"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="crear"
+            android:fontFamily="@font/poppins_light"
+            android:background="@drawable/empty_background"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="20dp"
+            android:paddingTop="2dp"
+            android:id="@+id/boton_crear_aviso"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

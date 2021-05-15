@@ -40,8 +40,10 @@ public class MainActivity extends AppCompatActivity {
             chipNavigationBar.setItemSelected(R.id.home, true);
             fragmentManager = getSupportFragmentManager();
             HomeFragment homeFragment = new HomeFragment();
-            fragmentManager.beginTransaction().replace(R.id.frame, homeFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.frame, homeFragment, "HOME").commit();
         }
+
+        Log.e("Comprobacion", "true");
 
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override

@@ -12,7 +12,7 @@ public class User {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
-        this. imgURL = imgURL;
+        this.imgURL = imgURL;
         this.correo = correo;
     }
 
