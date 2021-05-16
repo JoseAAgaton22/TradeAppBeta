@@ -47,7 +47,7 @@ public class AmortizacionFragment extends Fragment {
         amortizacion = view.findViewById(R.id.amortizacion);
         spinner = view.findViewById(R.id.spinner);
 
-        String[] bancos = {"-", "Bancolombia", "Banco de Bogotá", "Banco de Occidente", "Banco Popular", "Banco Davivienda", "Banco BBVA", "Otro"};
+        String[] bancos = {"-", "Bancolombia", "Banco de Bogotá", "Banco de Occidente", "Banco Popular", "Banco Davivienda", "Banco BBVA", "Otra"};
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.spinner_item_bancos, bancos);
         spinner.setAdapter(adapter);
 
@@ -69,13 +69,16 @@ public class AmortizacionFragment extends Fragment {
         });
 
         amortizar = view.findViewById(R.id.boton_amortizar);
+        amortizar.setEnabled(true);
 
-        amortizar.setOnClickListener(new View.OnClickListener(){
+        amortizar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+
                 String creditoString = credito.getText().toString();
                 String periodosString = periodos.getText().toString();
                 String cuotaString = cuota.getText().toString();
+                String seleccion = spinner.getSelectedItem().toString();
 
                 if (TextUtils.isEmpty(creditoString)) {
                     Toast.makeText(getActivity(), "El valor del crédito es un campo requerido", Toast.LENGTH_LONG).show();
@@ -85,148 +88,156 @@ public class AmortizacionFragment extends Fragment {
                     Toast.makeText(getActivity(), "Ingrese el número de periodos o el valor de la cuota", Toast.LENGTH_LONG).show();
                 }
 
-                else {
+                else if (TextUtils.isEmpty(cuotaString)) {
 
                     double creditoDouble = Double.parseDouble(creditoString);
                     int periodosInt = Integer.parseInt(periodosString);
-                    double cuotaInt = Double.parseDouble(cuotaString);
 
-                    String seleccion = spinner.getSelectedItem().toString();
+                    if (periodosInt == 0) {
+                        periodos.setError("El valor ingresado no es válido");
 
-                    if (seleccion.equals("-")) {
-                        Toast.makeText(getActivity(), "Especifique la entidad bancaria", Toast.LENGTH_LONG).show();
-                    } else if (seleccion.equals("Bancolombia")) {
-                        double tasaInteres = 0.0084;
-                        if (cuotaInt == 0) {
+                    }
+
+                    else {
+                        if (seleccion.equals("-")) {
+                            Toast.makeText(getActivity(), "Especifique la entidad bancaria", Toast.LENGTH_LONG).show();
+                        } else if (seleccion.equals("Bancolombia")) {
+                            double tasaInteres = 0.0084;
                             double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
-                            System.out.println("La cuota que pagará para saldar su deuda en el banco sera de: " + String.format("%.2f", amortizacionCuota));
                             String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                             amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-                        } else {
-                            double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                            System.out.println("Si la máxima cuota que puede pagar es de $" + cuota + " saldará su deuda con el banco en " + String.format("%.2f", amortizacionPeriodos) + " periodos.");
-                            String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                            amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
-                        }
-                    } else if (seleccion.equals("Banco de Bogotá")) {
-                        double tasaInteres = 0.0195;
-                        if (cuotaInt == 0) {
+                        } else if (seleccion.equals("Banco de Bogotá")) {
+                            double tasaInteres = 0.0195;
                             double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
-                            System.out.println("La cuota que pagará para saldar su deuda en el banco sera de: " + String.format("%.2f", amortizacionCuota));
                             String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                             amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-                        } else {
-                            double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                            System.out.println("Si la máxima cuota que puede pagar es de $" + cuota + " saldará su deuda con el banco en " + String.format("%.2f", amortizacionPeriodos) + " periodos.");
-                            String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                            amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
-                        }
-                    } else if (seleccion.equals("Banco de Occidente")) {
-                        double tasaInteres = 0.0092;
-                        if (cuotaInt == 0) {
+                        } else if (seleccion.equals("Banco de Occidente")) {
+                            double tasaInteres = 0.0092;
                             double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
-                            System.out.println("La cuota que pagará para saldar su deuda en el banco sera de: " + String.format("%.2f", amortizacionCuota));
                             String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                             amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-                        } else {
-                            double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                            System.out.println("Si la máxima cuota que puede pagar es de $" + cuota + " saldará su deuda con el banco en " + String.format("%.2f", amortizacionPeriodos) + " periodos.");
-                            String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                            amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
-                        }
-                    } else if (seleccion.equals("Banco Popular")) {
-                        if (creditoDouble >= 25000000) {
-                            double tasaInteres = 0.012;
-                            if (cuotaInt == 0) {
+                        } else if (seleccion.equals("Banco Popular")) {
+                            if (creditoDouble >= 25000000) {
+                                double tasaInteres = 0.012;
                                 double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
-                                System.out.println("La cuota que pagará para saldar su deuda en el banco sera de: " + String.format("%.2f", amortizacionCuota));
                                 String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                                 amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-
-                                while (0 < periodosInt) {
-                                }
-                            } else {
-                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                                System.out.println("Si la máxima cuota que puede pagar es de $" + cuota + " saldará su deuda con el banco en " + String.format("%.2f", amortizacionPeriodos) + " periodos.");
-                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
-                            }
-                        } else if (creditoDouble > 10000000 && creditoDouble < 25000000) {
-                            double tasaInteres = 0.015;
-                            if (cuotaInt == 0) {
+                            } else if (creditoDouble > 10000000 && creditoDouble < 25000000) {
+                                double tasaInteres = 0.015;
                                 double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
-                                System.out.println("La cuota que pagará para saldar su deuda en el banco sera de: " + String.format("%.2f", amortizacionCuota));
                                 String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                                 amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
                             } else {
-                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                                System.out.println("Si la máxima cuota que puede pagar es de $" + cuota + " saldará su deuda con el banco en " + String.format("%.2f", amortizacionPeriodos) + " periodos.");
-                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
-                            }
-                        } else {
-                            double tasaInteres = 0.017;
-                            if (cuotaInt == 0) {
+                                double tasaInteres = 0.017;
                                 double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
-                                System.out.println("La cuota que pagará para saldar su deuda en el banco sera de: " + String.format("%.2f", amortizacionCuota));
                                 String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                                 amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-                            } else {
-                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                                System.out.println("Si la máxima cuota que puede pagar es de $" + cuota + " saldará su deuda con el banco en " + String.format("%.2f", amortizacionPeriodos) + " periodos.");
-                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
                             }
-                        }
-                    } else if (seleccion.equals("Banco Davivienda")) {
-                        double tasaInteres = 0.0228;
-                        if (cuotaInt == 0) {
-                            double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
-                            System.out.println("La cuota que pagará para saldar su deuda en el banco sera de: " + String.format("%.2f", amortizacionCuota));
-                            String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
-                            amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-                        } else {
-                            double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                            System.out.println("Si la máxima cuota que puede pagar es de $" + cuota + " saldará su deuda con el banco en " + String.format("%.2f", amortizacionPeriodos) + " periodos.");
-                            String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                            amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
-                        }
-                    } else if (seleccion.equals("Banco BBVA")) {
-                        double tasaInteres = 0.0085;
-                        if (cuotaInt == 0) {
+                        } else if (seleccion.equals("Banco Davivienda")) {
+                            double tasaInteres = 0.0228;
                             double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
                             String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                             amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-                        } else {
-                            double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
-                            String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                            amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
-                        }
-                    } else if (seleccion.equals("Otro")) {
-                        String str_tasaInteres = tasaInteres.getText().toString();
+                        } else if (seleccion.equals("Banco BBVA")) {
+                            double tasaInteres = 0.0085;
+                            double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasaInteres, periodosInt)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodosInt) - 1);
+                            String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
+                            amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
+                        } else if (seleccion.equals("Otra")) {
+                            String str_tasaInteres = tasaInteres.getText().toString();
 
-                        if (TextUtils.isEmpty(str_tasaInteres)) {
-                            Toast.makeText(getActivity(), "Ingrese el valor de la tasa de interés", Toast.LENGTH_LONG).show();
-                        }
-
-                        else {
-                            Double tasaInteresDouble = Double.parseDouble(str_tasaInteres);
-                            Double tasa = (Math.pow(1 + (tasaInteresDouble / 100), 0.0833333)) - 1;
-                            if (cuotaInt == 0) {
+                            if (TextUtils.isEmpty(str_tasaInteres)) {
+                                Toast.makeText(getActivity(), "Ingrese el valor de la tasa de interés", Toast.LENGTH_LONG).show();
+                            } else {
+                                Double tasaInteresDouble = Double.parseDouble(str_tasaInteres);
+                                Double tasa = (Math.pow(1 + (tasaInteresDouble / 100), 0.0833333)) - 1;
                                 double amortizacionCuota = creditoDouble * ((Math.pow(1 + tasa, periodosInt)) * tasa) / (Math.pow(1 + tasa, periodosInt) - 1);
                                 String resultado = String.valueOf(String.format("%.2f", amortizacionCuota));
                                 amortizacion.setText("La cuota que deberá pagar será de $" + resultado);
-                            } else {
-                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasa))) / Math.log(1 + tasa);
-                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
                             }
                         }
                     }
                 }
+
+                else if (TextUtils.isEmpty(periodosString)){
+
+                    double creditoDouble = Double.parseDouble(creditoString);
+                    double cuotaInt = Double.parseDouble(cuotaString);
+
+                    if (cuotaInt == 0) {
+                        cuota.setError("Ingrese un valor de cuota válido");
+                    }
+
+                    else {
+                        if (cuotaInt > creditoDouble) {
+                            Toast.makeText(getActivity(), "Verifique que el valor de la cuota no exceda el monto total del crédito", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            if (seleccion.equals("-")) {
+                                Toast.makeText(getActivity(), "Especifique la entidad bancaria", Toast.LENGTH_LONG).show();
+                            } else if (seleccion.equals("Bancolombia")) {
+                                double tasaInteres = 0.0084;
+                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                            } else if (seleccion.equals("Banco de Bogotá")) {
+                                double tasaInteres = 0.0195;
+                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                            } else if (seleccion.equals("Banco de Occidente")) {
+                                double tasaInteres = 0.0092;
+                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                            } else if (seleccion.equals("Banco Popular")) {
+                                if (creditoDouble >= 25000000) {
+                                    double tasaInteres = 0.012;
+                                    double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                    String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                    amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                                } else if (creditoDouble > 10000000 && creditoDouble < 25000000) {
+                                    double tasaInteres = 0.015;
+                                    double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                    String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                    amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                                } else {
+                                    double tasaInteres = 0.017;
+                                    double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                    String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                    amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                                }
+                            } else if (seleccion.equals("Banco Davivienda")) {
+                                double tasaInteres = 0.0228;
+                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                            } else if (seleccion.equals("Banco BBVA")) {
+                                double tasaInteres = 0.0085;
+                                double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
+                                String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda con el banco en " + resultado + " periodos");
+                            } else if (seleccion.equals("Otra")) {
+                                String str_tasaInteres = tasaInteres.getText().toString();
+
+                                if (TextUtils.isEmpty(str_tasaInteres)) {
+                                    Toast.makeText(getActivity(), "Ingrese el valor de la tasa de interés", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Double tasaInteresDouble = Double.parseDouble(str_tasaInteres);
+                                    Double tasa = (Math.pow(1 + (tasaInteresDouble / 100), 0.0833333)) - 1;
+                                    double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasa))) / Math.log(1 + tasa);
+                                    String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+                                    amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    Toast.makeText(getActivity(), "No puede ingresar el número de periodos y el valor de la cuota", Toast.LENGTH_LONG).show();
+                }
             }
         });
-
     }
 
     @Override
