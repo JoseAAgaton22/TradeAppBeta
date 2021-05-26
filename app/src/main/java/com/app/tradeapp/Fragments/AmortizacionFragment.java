@@ -216,7 +216,7 @@ public class AmortizacionFragment extends Fragment {
                                 double tasaInteres = 0.0085;
                                 double amortizacionPeriodos = Math.log(cuotaInt / (cuotaInt - (creditoDouble * tasaInteres))) / Math.log(1 + tasaInteres);
                                 String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda con el banco en " + resultado + " periodos");
+                                amortizacion.setText("Pagando cuotas de $" + cuotaInt + " saldará su deuda en " + resultado + " periodos");
                             } else if (seleccion.equals("Otra")) {
                                 String str_tasaInteres = tasaInteres.getText().toString();
 

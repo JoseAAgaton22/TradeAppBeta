@@ -1,7 +1,6 @@
 package com.app.tradeapp.Fragments;
 
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -23,13 +21,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toolbar;
 
 import com.app.tradeapp.Adapters.UserAdapter;
 import com.app.tradeapp.Model.User;
 import com.app.tradeapp.R;
 import com.app.tradeapp.StartActivity;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -79,7 +75,8 @@ public class HomeFragment extends Fragment {
         crear_billetera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new DeudasFragment(), "PERFIL").commit();
+                //startActivity(new Intent(getActivity(), TransactionsActivity.class));
+                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new TransactionsFragment(), "PERFIL").commit();
             }
         });
 

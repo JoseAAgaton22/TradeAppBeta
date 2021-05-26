@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="style_calendar" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#101043</item>
+    </style>
+
+</resources>
