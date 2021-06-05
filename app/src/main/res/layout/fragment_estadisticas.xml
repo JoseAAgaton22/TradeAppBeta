@@ -1,14 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.EstadisticasFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="estadisticas" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <GridLayout
+            android:id="@+id/grid_transaccionesTotales"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:columnCount="2">
+
+            <TextView
+                android:id="@+id/ingresosTotales"
+                android:layout_width="167dp"
+                android:layout_height="90dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/user_background"
+                android:elevation="5dp"
+                android:fontFamily="@font/poppins_bold"
+                android:paddingStart="12dp"
+                android:paddingTop="25dp"
+                android:paddingEnd="12dp"
+                android:hint="$0 COP"
+                android:textAlignment="center"
+                android:textColor="@color/main"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/gastosTotales"
+                android:layout_width="167dp"
+                android:layout_height="90dp"
+                android:textAlignment="center"
+                android:textSize="22dp"
+                android:textColor="@color/main"
+                android:paddingTop="25dp"
+                android:hint="$0 COP"
+                android:fontFamily="@font/poppins_bold"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:elevation="5dp"
+                android:background="@drawable/user_background"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:text="Ingresos totales"
+                android:fontFamily="@font/poppins_light"
+                android:layout_width="167dp"
+                android:textAlignment="center"
+                android:textColor="@color/main"
+                android:textSize="18dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:lineHeight="10dp"/>
+
+            <TextView
+                android:text="Gastos totales"
+                android:fontFamily="@font/poppins_light"
+                android:layout_width="167dp"
+                android:textAlignment="center"
+                android:textColor="@color/main"
+                android:textSize="18dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:lineHeight="10dp"/>
+
+        </GridLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/items_background"
+            android:layout_below="@id/grid_transaccionesTotales"
+            android:elevation="2dp"
+            android:id="@+id/proximo_pago">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_balance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="Balance general"
+                    android:textColor="@color/white"
+                    android:textSize="22dp"
+                    android:fontFamily="@font/poppins_normal"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/balanceGeneral"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="$0,0 COP"
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/poppins_bold"
+                    android:textSize="24dp"
+                    android:textColor="@color/white"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

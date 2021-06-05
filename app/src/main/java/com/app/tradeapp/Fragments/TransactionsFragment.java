@@ -2,6 +2,8 @@ package com.app.tradeapp.Fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.method.ScrollingMovementMethod;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +28,17 @@ import android.widget.Toast;
 import com.app.tradeapp.Adapters.CategoriasAdapater;
 import com.app.tradeapp.Adapters.IngresosAdapter;
 import com.app.tradeapp.R;
+import com.app.tradeapp.RandomString;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 
-public class TransactionsFragment extends Fragment implements IngresosAdapter.sendData {
+public class TransactionsFragment extends Fragment {
 
     ImageView boton_cancel;
     EditText valor_transaccion, descripcion_transaccion;
@@ -40,6 +48,8 @@ public class TransactionsFragment extends Fragment implements IngresosAdapter.se
     ImageButton boton_categoria;
     RecyclerView recyclerCategoria;
     Button boton_añadir;
+    String tipoTransaccion = "";
+    ProgressDialog dialog;
     Activity activity;
 
     public TransactionsFragment() {
@@ -62,7 +72,6 @@ public class TransactionsFragment extends Fragment implements IngresosAdapter.se
         IngresosAdapter.obtenerListaIngresos();
         View view = inflater.inflate(R.layout.fragment_transactions, container, false);
 
-        IngresosAdapter ingresosAdapter = new IngresosAdapter(this);
         boton_cancel = view.findViewById(R.id.cancel);
         valor_transaccion = view.findViewById(R.id.valor_transaccion);
         descripcion_transaccion = view.findViewById(R.id.descripcion_transaccion);
@@ -122,6 +131,7 @@ public class TransactionsFragment extends Fragment implements IngresosAdapter.se
                     } else {
                         recyclerCategoria.setVisibility(View.VISIBLE);
                     }
+
                 } else if (rb_gasto.isChecked() == true) {
                     final CategoriasAdapater adapaterCat = new CategoriasAdapater(CategoriasAdapater.listaCategorias_gasto);
                     recyclerCategoria.setAdapter(adapaterCat);
@@ -133,6 +143,9 @@ public class TransactionsFragment extends Fragment implements IngresosAdapter.se
                 }
             }
         });
+
+        //categoria
+
 
         fecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,11 +216,69 @@ public class TransactionsFragment extends Fragment implements IngresosAdapter.se
             }
         });
 
+
+        boton_añadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String str_valor_transaccion = valor_transaccion.getText().toString();
+                String fechaTransaccion = fecha.getText().toString();
+                String str_descripcion_transaccion = descripcion_transaccion.getText().toString();
+                String str_categoria = categoria.getText().toString();
+
+                if (TextUtils.isEmpty(str_valor_transaccion)){
+                    Toast.makeText(getContext(), "Debe ingresar el valor y categoria de su transaccion", Toast.LENGTH_LONG).show();
+                }
+                else if (TextUtils.isEmpty(fechaTransaccion)) {
+                    Toast.makeText(getActivity(), "Ingrese la fecha de la transaccion", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (rb_ingreso.isChecked() == true) {
+                        dialog = new ProgressDialog(getActivity());
+                        dialog.setMessage("Estamos gestionando tu transacción");
+                        dialog.show();
+                        subirIngreso(str_categoria, str_valor_transaccion, fechaTransaccion, str_descripcion_transaccion);
+                    } else if (rb_gasto.isChecked() == true) {
+                        dialog = new ProgressDialog(getActivity());
+                        dialog.setMessage("Estamos gestionando tu transacción");
+                        dialog.show();
+                        subirGasto(str_categoria, str_valor_transaccion, fechaTransaccion, str_descripcion_transaccion);
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
-    @Override
-    public void sendCategoria(String nombre_categoria) { categoria.setText(nombre_categoria);
+    private void subirIngreso(String str_categoria, String str_valor_transaccion, String fechaTransaccion, String str_descripcion_transaccion) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        RandomString randomString = new RandomString();
+        String id = randomString.nextString();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", id);
+        hashMap.put("categoria", str_categoria);
+        hashMap.put("valor", str_valor_transaccion);
+        hashMap.put("fecha_de_transaccion", fechaTransaccion);
+        hashMap.put("descripcion", str_descripcion_transaccion);
+
+        Task<Void> reference = FirebaseDatabase.getInstance().getReference("transacciones").child("ingresos").child(firebaseUser.getUid()).child(id).setValue(hashMap);
     }
 
+    private void subirGasto(String str_categoria, String str_valor_transaccion, String fechaTransaccion, String str_descripcion_transaccion) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        RandomString randomString = new RandomString();
+        String id = randomString.nextString();
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", id);
+        hashMap.put("categoria", str_categoria);
+        hashMap.put("valor", str_valor_transaccion);
+        hashMap.put("fecha_de_transaccion", fechaTransaccion);
+        hashMap.put("descripcion", str_descripcion_transaccion);
+
+        Task<Void> reference = FirebaseDatabase.getInstance().getReference("transacciones").child("gastos").child(firebaseUser.getUid()).child(id).setValue(hashMap);
+    }
 }

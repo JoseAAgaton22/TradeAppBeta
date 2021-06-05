@@ -1,5 +1,7 @@
 package com.app.tradeapp.Adapters;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.tradeapp.Fragments.TransactionsFragment;
@@ -16,16 +17,13 @@ import com.app.tradeapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public class IngresosAdapter extends RecyclerView.Adapter<IngresosAdapter.ViewHolder> {
-
+    
     List<Categorias> lista_categorias;
     int posicionSeleccionada = -1;
-    private sendData listener;
-
-    public IngresosAdapter(sendData listener) {
-        this.listener = listener;
-    }
+    Context context;
 
     public IngresosAdapter(List<Categorias> lista_categorias) {
         this.lista_categorias = lista_categorias;
@@ -61,7 +59,6 @@ public class IngresosAdapter extends RecyclerView.Adapter<IngresosAdapter.ViewHo
         holder.categoria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.sendCategoria(listaCategorias_ingreso.get(holder.getAdapterPosition()).getNombre());
                 posicionSeleccionada = i;
                 notifyDataSetChanged();
             }
@@ -69,6 +66,10 @@ public class IngresosAdapter extends RecyclerView.Adapter<IngresosAdapter.ViewHo
 
         if (posicionSeleccionada==position) {
             holder.categoria.setSelected(true);
+            SharedPreferences preferences = context.getSharedPreferences("categorias", Context.MODE_PRIVATE);
+            String mostrar = holder.nombre.getText().toString();
+            preferences.edit().putString("nombre_categoria", mostrar).apply();
+
         } else {
             holder.categoria.setSelected(false);
         }
@@ -91,9 +92,5 @@ public class IngresosAdapter extends RecyclerView.Adapter<IngresosAdapter.ViewHo
             nombre = itemView.findViewById(R.id.textCategoria);
         }
     }
-
-    public interface sendData {
-        void sendCategoria(String nombre_categoria);
-    }
-
 }
+
