@@ -66,10 +66,6 @@ public class IngresosAdapter extends RecyclerView.Adapter<IngresosAdapter.ViewHo
 
         if (posicionSeleccionada==position) {
             holder.categoria.setSelected(true);
-            SharedPreferences preferences = context.getSharedPreferences("categorias", Context.MODE_PRIVATE);
-            String mostrar = holder.nombre.getText().toString();
-            preferences.edit().putString("nombre_categoria", mostrar).apply();
-
         } else {
             holder.categoria.setSelected(false);
         }
