@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -29,10 +30,13 @@ import com.app.tradeapp.Adapters.CategoriasAdapater;
 import com.app.tradeapp.Adapters.IngresosAdapter;
 import com.app.tradeapp.R;
 import com.app.tradeapp.RandomString;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -223,9 +227,10 @@ public class TransactionsFragment extends Fragment {
                 String str_valor_transaccion = valor_transaccion.getText().toString();
                 String fechaTransaccion = fecha.getText().toString();
                 String str_descripcion_transaccion = descripcion_transaccion.getText().toString();
-                String str_categoria = categoria.getText().toString();
+                String str_categoria_ingreso = IngresosAdapter.categoriaSeleccionada;
+                String str_categoria_gasto = CategoriasAdapater.categoriaSeleccionada;
 
-                if (TextUtils.isEmpty(str_valor_transaccion)){
+                if (TextUtils.isEmpty(str_valor_transaccion) || (TextUtils.isEmpty(str_categoria_gasto) && TextUtils.isEmpty(str_categoria_ingreso))) {
                     Toast.makeText(getContext(), "Debe ingresar el valor y categoria de su transaccion", Toast.LENGTH_LONG).show();
                 }
                 else if (TextUtils.isEmpty(fechaTransaccion)) {
@@ -236,12 +241,12 @@ public class TransactionsFragment extends Fragment {
                         dialog = new ProgressDialog(getActivity());
                         dialog.setMessage("Estamos gestionando tu transacción");
                         dialog.show();
-                        subirIngreso(str_categoria, str_valor_transaccion, fechaTransaccion, str_descripcion_transaccion);
+                        subirIngreso(str_categoria_ingreso, str_valor_transaccion, fechaTransaccion, str_descripcion_transaccion);
                     } else if (rb_gasto.isChecked() == true) {
                         dialog = new ProgressDialog(getActivity());
                         dialog.setMessage("Estamos gestionando tu transacción");
                         dialog.show();
-                        subirGasto(str_categoria, str_valor_transaccion, fechaTransaccion, str_descripcion_transaccion);
+                        subirGasto(str_categoria_gasto, str_valor_transaccion, fechaTransaccion, str_descripcion_transaccion);
                     }
                 }
             }
@@ -264,6 +269,12 @@ public class TransactionsFragment extends Fragment {
         hashMap.put("descripcion", str_descripcion_transaccion);
 
         Task<Void> reference = FirebaseDatabase.getInstance().getReference("transacciones").child("ingresos").child(firebaseUser.getUid()).child(id).setValue(hashMap);
+        reference.addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void subirGasto(String str_categoria, String str_valor_transaccion, String fechaTransaccion, String str_descripcion_transaccion) {
@@ -280,5 +291,11 @@ public class TransactionsFragment extends Fragment {
         hashMap.put("descripcion", str_descripcion_transaccion);
 
         Task<Void> reference = FirebaseDatabase.getInstance().getReference("transacciones").child("gastos").child(firebaseUser.getUid()).child(id).setValue(hashMap);
+        reference.addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                dialog.dismiss();
+            }
+        });
     }
 }

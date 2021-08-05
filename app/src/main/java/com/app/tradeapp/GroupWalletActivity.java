@@ -1,47 +1,45 @@
 package com.app.tradeapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.Dialog;
-import android.app.PendingIntent;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import com.app.tradeapp.Adapters.CodeudorAdapter;
 import com.app.tradeapp.Adapters.SubvalorAdapter;
-import com.app.tradeapp.Fragments.DeudasFragment;
-import com.app.tradeapp.Fragments.PerfilFragment;
+import com.app.tradeapp.Adapters.UserAdapter;
 import com.app.tradeapp.Model.Subvalor;
+import com.app.tradeapp.Model.User;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,8 +47,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -62,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class WalletActivity extends AppCompatActivity {
+public class GroupWalletActivity extends AppCompatActivity {
 
     EditText nombre_pago, descripcion_pago, valor_pago, subvalor_nombre, subvalor_valor;
     Button boton_subvalores, boton_pago, boton_pendiente, boton_completado, boton_calcular;
@@ -71,9 +67,13 @@ public class WalletActivity extends AppCompatActivity {
     CompactCalendarView calendario;
     SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM-yyyy", Locale.getDefault());
     RecyclerView recyclerSubvalores;
+    RecyclerView recyclerView;
     SubvalorAdapter subvalorAdapter;
     Calendar calendar;
     List<Subvalor> mSubvalores;
+    List<User> codeudorList;
+    List<String> agregados;
+    CodeudorAdapter codeudorAdapter;
     String fechaVencimiento = "";
     String horaVencimiento = "";
     String estado = "ninguno";
@@ -81,11 +81,13 @@ public class WalletActivity extends AppCompatActivity {
     Dialog hora;
     double total = 0;
 
+    String id;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wallet);
+        setContentView(R.layout.activity_group_wallet);
 
         nombre_pago = findViewById(R.id.nombre_pago);
         descripcion_pago = findViewById(R.id.descripcion_pago);
@@ -106,12 +108,29 @@ public class WalletActivity extends AppCompatActivity {
         mesYaño = findViewById(R.id.indicador_fecha);
         calendar = Calendar.getInstance();
 
+        getAgregados();
+        recyclerView = findViewById(R.id.recycler_codeudores);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(GroupWalletActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        codeudorList = new ArrayList<>();
+        codeudorAdapter = new CodeudorAdapter(GroupWalletActivity.this, codeudorList);
+        recyclerView.setAdapter(codeudorAdapter);
+
         recyclerSubvalores = findViewById(R.id.recycler_subvalores);
         recyclerSubvalores.setHasFixedSize(true);
-        recyclerSubvalores.setLayoutManager(new LinearLayoutManager(WalletActivity.this));
+        recyclerSubvalores.setLayoutManager(new LinearLayoutManager(GroupWalletActivity.this));
         mSubvalores = new ArrayList<>();
-        subvalorAdapter = new SubvalorAdapter(WalletActivity.this, mSubvalores);
+        subvalorAdapter = new SubvalorAdapter(GroupWalletActivity.this, mSubvalores);
 
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        agregados = new ArrayList<>();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel("Mi notificacion", "Mi notificacion", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
         boton_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,7 +146,7 @@ public class WalletActivity extends AppCompatActivity {
                 String str_subvalor_valor = subvalor_valor.getText().toString();
 
                 if (TextUtils.isEmpty(str_subvalor_nombre) || TextUtils.isEmpty(str_subvalor_valor)) {
-                    Toast.makeText(WalletActivity.this, "Debes llenar los valores", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupWalletActivity.this, "Debes llenar los valores", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
                         double valor = Double.parseDouble(str_subvalor_valor);
@@ -138,7 +157,7 @@ public class WalletActivity extends AppCompatActivity {
                         subvalor_nombre.setText("");
                         subvalor_valor.setText("");
                     } catch (Exception ex) {
-                        Toast.makeText(WalletActivity.this, "Debes ingresar un valor numerico", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupWalletActivity.this, "Debes ingresar un valor numerico", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -158,7 +177,7 @@ public class WalletActivity extends AppCompatActivity {
         boton_cancelar_subvalor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hideSoftKeyboard(WalletActivity.this, v);
+                hideSoftKeyboard(GroupWalletActivity.this, v);
                 subvalor_nombre.setText("");
                 subvalor_valor.setText("");
                 subvalor_nombre.clearFocus();
@@ -223,7 +242,7 @@ public class WalletActivity extends AppCompatActivity {
                 done.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(WalletActivity.this, "Establecido a las "+horaVencimiento, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupWalletActivity.this, "Establecido a las "+horaVencimiento, Toast.LENGTH_SHORT).show();
                         hora.dismiss();
                     }
                 });
@@ -245,23 +264,23 @@ public class WalletActivity extends AppCompatActivity {
                 String str_valor_pago = valor_pago.getText().toString();
 
                 if(TextUtils.isEmpty(str_nombre_pago) || TextUtils.isEmpty(str_valor_pago)){
-                    Toast.makeText(WalletActivity.this, "Debes poner un nombre y valor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupWalletActivity.this, "Debes poner un nombre y valor", Toast.LENGTH_SHORT).show();
                 }
                 else if((!boton_pago.isPressed()) && (!boton_pago.isPressed())){
-                    Toast.makeText(WalletActivity.this, "Debes seleccionar el estado del pago", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupWalletActivity.this, "Debes seleccionar el estado del pago", Toast.LENGTH_SHORT).show();
                 }
                 else if(fechaVencimiento.equals("") || horaVencimiento.equals("")){
-                    Toast.makeText(WalletActivity.this, "Debes seleccionar la fecha y hora", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupWalletActivity.this, "Debes seleccionar la fecha y hora", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     try {
                         total = Double.parseDouble(valor_pago.getText().toString());
-                        dialog = new ProgressDialog(WalletActivity.this);
+                        dialog = new ProgressDialog(GroupWalletActivity.this);
                         dialog.setMessage("Estamos subiendo tu pago");
                         dialog.show();
                         subirPago(str_nombre_pago, str_descripcion_pago, str_valor_pago, estado, fechaVencimiento, horaVencimiento);
                     }catch (Exception ex){
-                        Toast.makeText(WalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupWalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -275,24 +294,30 @@ public class WalletActivity extends AppCompatActivity {
                 String str_valor_pago = valor_pago.getText().toString();
 
                 if(TextUtils.isEmpty(str_nombre_pago) || TextUtils.isEmpty(str_valor_pago)){
-                    Toast.makeText(WalletActivity.this, "Debes poner un nombre y valor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupWalletActivity.this, "Debes poner un nombre y valor", Toast.LENGTH_SHORT).show();
                 }
                 else if(!boton_pago.isPressed() && !boton_pendiente.isPressed()){
-                    Toast.makeText(WalletActivity.this, "Debes seleccionar el estado del pago", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupWalletActivity.this, "Debes seleccionar el estado del pago", Toast.LENGTH_SHORT).show();
                 }
                 else if(fechaVencimiento.equals("") || horaVencimiento.equals("")){
-                    Toast.makeText(WalletActivity.this, "Debes seleccionar la fecha y hora", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GroupWalletActivity.this, "Debes seleccionar la fecha y hora", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     try {
-                        total = Double.parseDouble(valor_pago.getText().toString());
-                        dialog = new ProgressDialog(WalletActivity.this);
-                        dialog.setMessage("Estamos subiendo tu pago");
-                        dialog.show();
-                        subirPago(str_nombre_pago, str_descripcion_pago, str_valor_pago, estado, fechaVencimiento, horaVencimiento);
-                        subirGasto(str_valor_pago,fechaVencimiento, str_descripcion_pago);
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(GroupWalletActivity.this, "Mi notificacion");
+                        builder.setContentTitle("Notificación de prueba");
+                        builder.setSmallIcon(R.drawable.ic_trade_app);
+                        builder.setAutoCancel(true);
+
+                        for (int i = 0; i<CodeudorAdapter.str_id.size(); i++) {
+                            builder.setContentText(CodeudorAdapter.str_id.get(i));
+                        }
+
+                        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(GroupWalletActivity.this);
+                        managerCompat.notify(1, builder.build());
+
                     }catch (Exception ex){
-                        Toast.makeText(WalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GroupWalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -398,5 +423,50 @@ public class WalletActivity extends AppCompatActivity {
     {
         InputMethodManager imm = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getApplicationWindowToken(), 0);
+    }
+
+    private void getAgregados() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("personas")
+                .child(firebaseUser.getUid()).child("agregados");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                agregados.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    agregados.add(dataSnapshot.getKey());
+                }
+                showAgregados();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void showAgregados() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("usuarios");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                codeudorList.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    for (String id : agregados) {
+                        if (user.getId().equals(id)) {
+                            codeudorList.add(user);
+                        }
+                    }
+                }
+                codeudorAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
     }
 }

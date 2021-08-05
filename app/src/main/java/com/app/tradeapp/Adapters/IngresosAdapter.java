@@ -23,7 +23,7 @@ public class IngresosAdapter extends RecyclerView.Adapter<IngresosAdapter.ViewHo
     
     List<Categorias> lista_categorias;
     int posicionSeleccionada = -1;
-    Context context;
+    public static String categoriaSeleccionada = "";
 
     public IngresosAdapter(List<Categorias> lista_categorias) {
         this.lista_categorias = lista_categorias;
@@ -60,6 +60,7 @@ public class IngresosAdapter extends RecyclerView.Adapter<IngresosAdapter.ViewHo
             @Override
             public void onClick(View v) {
                 posicionSeleccionada = i;
+                categoriaSeleccionada = listaCategorias_ingreso.get(position).getNombre();
                 notifyDataSetChanged();
             }
         });

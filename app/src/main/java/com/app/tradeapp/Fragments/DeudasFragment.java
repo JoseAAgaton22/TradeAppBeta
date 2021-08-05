@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.app.tradeapp.Adapters.PagoAdapter;
+import com.app.tradeapp.GroupWalletActivity;
 import com.app.tradeapp.Model.Pago;
 import com.app.tradeapp.R;
 import com.app.tradeapp.WalletActivity;
@@ -100,6 +101,13 @@ public class DeudasFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), WalletActivity.class));
+            }
+        });
+
+        grupal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), GroupWalletActivity.class));
             }
         });
 

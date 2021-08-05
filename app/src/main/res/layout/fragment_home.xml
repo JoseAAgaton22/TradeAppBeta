@@ -130,11 +130,12 @@
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
             android:layout_below="@id/crear_billetera"
-            android:columnCount="4"
+            android:columnCount="3"
             android:id="@+id/grid">
 
             <TextView
-                android:layout_width="83dp"
+                android:id="@+id/endeudamiento"
+                android:layout_width="108dp"
                 android:layout_height="83dp"
                 android:textAlignment="center"
                 android:textSize="24dp"
@@ -149,7 +150,8 @@
                 android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="83dp"
+                android:id="@+id/porcentaje_libre"
+                android:layout_width="108dp"
                 android:layout_height="83dp"
                 android:textAlignment="center"
                 android:textSize="24dp"
@@ -164,28 +166,15 @@
                 android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="83dp"
+                android:id="@+id/pagos"
+                android:layout_width="108dp"
                 android:layout_height="83dp"
                 android:textAlignment="center"
                 android:textSize="24dp"
                 android:textColor="@color/main"
                 android:paddingTop="22dp"
-                android:text="22"
-                android:fontFamily="@font/poppins_bold"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:elevation="5dp"
-                android:background="@drawable/user_background"
-                android:layout_margin="5dp"/>
-
-            <TextView
-                android:layout_width="83dp"
-                android:layout_height="83dp"
-                android:textAlignment="center"
-                android:textSize="24dp"
-                android:textColor="@color/main"
-                android:paddingTop="22dp"
-                android:text="3"
+                android:hint="0"
+                android:textColorHint="@color/main"
                 android:fontFamily="@font/poppins_bold"
                 android:paddingStart="12dp"
                 android:paddingEnd="12dp"
@@ -196,46 +185,35 @@
             <TextView
                 android:text="Capacidad de ahorro"
                 android:fontFamily="@font/poppins_light"
-                android:layout_width="90dp"
+                android:layout_width="110dp"
                 android:textAlignment="center"
                 android:textColor="@color/main"
-                android:textSize="10dp"
+                android:textSize="12dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:lineHeight="10dp"/>
+                android:lineHeight="12dp"/>
 
             <TextView
                 android:text="Porcentaje libre"
                 android:fontFamily="@font/poppins_light"
-                android:layout_width="90dp"
+                android:layout_width="110dp"
                 android:textAlignment="center"
                 android:textColor="@color/main"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:lineHeight="10dp"
-                android:textSize="10dp"/>
+                android:lineHeight="12dp"
+                android:textSize="12dp"/>
 
             <TextView
                 android:text="Deudas pendientes"
                 android:fontFamily="@font/poppins_light"
-                android:layout_width="90dp"
+                android:layout_width="110dp"
                 android:textAlignment="center"
                 android:textColor="@color/main"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:lineHeight="10dp"
-                android:textSize="10dp"/>
-
-            <TextView
-                android:text="Bancos afiliados"
-                android:fontFamily="@font/poppins_light"
-                android:layout_width="90dp"
-                android:textAlignment="center"
-                android:textColor="@color/main"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:lineHeight="10dp"
-                android:textSize="10dp"/>
+                android:lineHeight="12dp"
+                android:textSize="12dp"/>
 
         </GridLayout>
 
@@ -294,21 +272,6 @@
             </LinearLayout>
 
         </FrameLayout>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CERRAR SESIÓN"
-            android:background="@drawable/button_background_selector"
-            android:fontFamily="@font/poppins_bold"
-            android:height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:id="@+id/boton_cerrar"
-            android:layout_below="@id/proximo_pago"
-            android:layout_marginTop="10dp"
-            android:textColor="#fff"/>
 
     </RelativeLayout>
 

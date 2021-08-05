@@ -20,6 +20,7 @@ public class CategoriasAdapater extends RecyclerView.Adapter<CategoriasAdapater.
 
     List<Categorias> lista_categorias;
     int posicionSeleccionada = -1;
+    public static String categoriaSeleccionada = "";
     String transaccion;
 
     public CategoriasAdapater(List<Categorias> lista_categorias) {
@@ -71,6 +72,7 @@ public class CategoriasAdapater extends RecyclerView.Adapter<CategoriasAdapater.
             @Override
             public void onClick(View v) {
                 posicionSeleccionada = i;
+                categoriaSeleccionada = listaCategorias_gasto.get(position).getNombre();
                 notifyDataSetChanged();
             }
         });

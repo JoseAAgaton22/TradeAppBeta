@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GroupWalletActivity">
+
+    <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="2dp"
+    android:background="#fff">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="20dp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_cerrar"
+                android:padding="15dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/cancel"
+                android:layout_alignParentStart="true"/>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_done"
+                android:layout_alignParentEnd="true"
+                android:padding="15dp"
+                android:id="@+id/done"
+                android:layout_marginRight="20dp"/>
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="10dp"
+        android:elevation="10dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#90010145"
+            android:elevation="1dp"
+            android:id="@+id/pago_compartido"/>
+
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_deuda_compartida"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pago compartido"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="#fff"
+            android:textSize="24dp"
+            android:elevation="2dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"/>
+
+    </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Codeudores"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="#010101"
+            android:textSize="16dp"
+            android:layout_marginTop="20dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_codeudores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:scrollbars="horizontal"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Nombre del pago a realizar"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="#010101"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Pago pendiente"
+            android:paddingStart="20dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/nombre_pago"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/poppins_light"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Descripción"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="#010101"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/edit_text_background"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:paddingStart="20dp"
+            android:layout_marginTop="5dp"
+            android:paddingEnd="20dp"
+            android:fontFamily="@font/poppins_light"
+            android:inputType="textMultiLine"
+            android:id="@+id/descripcion_pago"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Valor total"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="#010101"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="60dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="5dp"
+                android:hint="000.000,00"
+                android:paddingStart="20dp"
+                android:id="@+id/valor_pago"
+                android:layout_marginTop="5dp"
+                android:paddingEnd="20dp"
+                android:fontFamily="@font/poppins_light"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="calcular"
+                android:background="@drawable/button_background_selector"
+                android:fontFamily="@font/poppins_light"
+                android:height="60dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/boton_calcular"
+                android:textColor="#fff"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/recycler_subvalores"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="Subvalor"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:fontFamily="@font/poppins_light"
+                android:textColor="#010101"
+                android:textSize="16dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"
+                android:layout_marginEnd="5dp"
+                android:id="@+id/subvalor_nombre"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:layout_height="wrap_content"
+                android:hint="000.00"
+                android:fontFamily="@font/poppins_light"
+                android:textColor="#010101"
+                android:textSize="16dp"
+                android:background="@drawable/edit_text_background"
+                android:padding="10dp"
+                android:layout_marginStart="5dp"
+                android:id="@+id/subvalor_valor"/>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_cerrar"
+                android:padding="15dp"
+                android:id="@+id/borrar_subvalor"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AGREGAR SUBVALOR"
+            android:background="@drawable/button_background_selector"
+            android:fontFamily="@font/poppins_bold"
+            android:height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/boton_subvalores"
+            android:textColor="#fff"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Fecha de vencimiento"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="#010101"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text=""
+            android:fontFamily="@font/poppins_light"
+            android:textColor="#fff"
+            android:background="@color/main"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:id="@+id/indicador_fecha"/>
+
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/calendario"
+            android:layout_width="fill_parent"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="20dp"
+            android:layout_height="250dp"
+            app:compactCalendarTargetHeight="250dp"
+            app:compactCalendarTextSize="12sp"
+            app:compactCalendarBackgroundColor="#fff"
+            app:compactCalendarTextColor="@color/main"
+            app:compactCalendarCurrentSelectedDayTextColor="#fff"
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/main"
+            app:compactCalendarCurrentDayBackgroundColor="@color/main"
+            app:compactCalendarCurrentDayTextColor="#fff"
+            app:compactCalendarMultiEventIndicatorColor="#fff"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="Estado"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="#010101"
+            android:layout_marginTop="20dp"
+            android:textSize="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:text="pago"
+                android:background="@drawable/button_background_selector"
+                android:fontFamily="@font/poppins_light"
+                android:textColor="#fff"
+                android:layout_marginStart="20dp"
+                android:id="@+id/boton_pago"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="60dp"
+                android:text="pendiente"
+                android:background="@drawable/button_background_selector"
+                android:fontFamily="@font/poppins_light"
+                android:textColor="#fff"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/boton_pendiente"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TERMINADO"
+            android:background="@drawable/button_background_selector"
+            android:fontFamily="@font/poppins_bold"
+            android:height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:textColor="#fff"
+            android:id="@+id/boton_done"/>
+    </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

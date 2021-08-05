@@ -3,6 +3,7 @@ package com.app.tradeapp.Fragments;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
+import android.graphics.Typeface;
 import android.graphics.fonts.Font;
 import android.graphics.fonts.FontFamily;
 import android.os.Bundle;
@@ -44,7 +45,7 @@ import java.util.ArrayList;
 
 public class EstadisticasFragment extends Fragment {
 
-    TextView ingresosTotales, egresosTotales, balanceGeneral;
+    TextView ingresosTotales, egresosTotales, balanceGeneral, prueba;
     double totalIngresos = 0;
     double totalGastos = 0;
     private LineChart lineChart;
@@ -65,6 +66,7 @@ public class EstadisticasFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_estadisticas, container, false);
 
+        prueba = view.findViewById(R.id.prueba);
         ingresosTotales = view.findViewById(R.id.ingresosTotales);
         egresosTotales = view.findViewById(R.id.gastosTotales);
         balanceGeneral = view.findViewById(R.id.balanceGeneral);
@@ -73,8 +75,6 @@ public class EstadisticasFragment extends Fragment {
         administrar_Ingresos();
         administrar_Gastos();
         balance(totalIngresos, totalGastos);
-
-
 
         return view;
     }
@@ -131,6 +131,12 @@ public class EstadisticasFragment extends Fragment {
                     String str_gasto = gestionTransaccion.getValor();
                     double gasto = Double.parseDouble(str_gasto);
                     lista_gastos.add(gasto);
+                    if (snapshot.child("categoria").equals("Hogar")) {
+                        prueba.setText("Hola mundo");
+                    }
+                    else {
+                        prueba.setText("Aló policia");
+                    }
 
                 }
 
@@ -140,6 +146,7 @@ public class EstadisticasFragment extends Fragment {
                     String gastoNeto = String.valueOf(numberFormat.format(totalGastos));
                     egresosTotales.setText(gastoNeto);
                 }
+
             }
 
             @Override
