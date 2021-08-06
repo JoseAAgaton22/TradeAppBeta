@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.app.tradeapp.Adapters.PagoAdapter;
 import com.app.tradeapp.GroupWalletActivity;
@@ -42,6 +43,7 @@ public class DeudasFragment extends Fragment {
     private FloatingActionButton boton_crear, individual, grupal;
     private Button boton_crear_aviso;
     private LinearLayout empty_items;
+    private TextView deudasTitulo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +55,7 @@ public class DeudasFragment extends Fragment {
         grupal = view.findViewById(R.id.grupal);
         boton_crear_aviso = view.findViewById(R.id.boton_crear_aviso);
         empty_items = view.findViewById(R.id.empty_items);
+        deudasTitulo = view.findViewById(R.id.deudas_titulo);
 
         recyclerView = view.findViewById(R.id.recycler_pagos);
         recyclerView.setHasFixedSize(true);

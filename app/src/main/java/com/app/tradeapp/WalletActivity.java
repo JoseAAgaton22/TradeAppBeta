@@ -54,6 +54,7 @@ import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -197,7 +198,7 @@ public class WalletActivity extends AppCompatActivity {
         calendario.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                fechaVencimiento = dateClicked.toString().substring(0,11)+dateClicked.toString().substring(30,34);
+                fechaVencimiento = DateFormat.getDateInstance(DateFormat.SHORT).format(dateClicked);;
 
                 ImageView done;
                 TimePicker timePicker;

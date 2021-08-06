@@ -45,7 +45,7 @@ import java.util.ArrayList;
 
 public class EstadisticasFragment extends Fragment {
 
-    TextView ingresosTotales, egresosTotales, balanceGeneral, prueba;
+    TextView ingresosTotales, egresosTotales, balanceGeneral;
     double totalIngresos = 0;
     double totalGastos = 0;
     private LineChart lineChart;
@@ -66,7 +66,6 @@ public class EstadisticasFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_estadisticas, container, false);
 
-        prueba = view.findViewById(R.id.prueba);
         ingresosTotales = view.findViewById(R.id.ingresosTotales);
         egresosTotales = view.findViewById(R.id.gastosTotales);
         balanceGeneral = view.findViewById(R.id.balanceGeneral);
@@ -132,10 +131,8 @@ public class EstadisticasFragment extends Fragment {
                     double gasto = Double.parseDouble(str_gasto);
                     lista_gastos.add(gasto);
                     if (snapshot.child("categoria").equals("Hogar")) {
-                        prueba.setText("Hola mundo");
                     }
                     else {
-                        prueba.setText("Aló policia");
                     }
 
                 }

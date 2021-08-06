@@ -1,53 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/items_background"
-    android:paddingBottom="10dp"
-    android:layout_marginBottom="10dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="120dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Titulo del pago"
-                android:id="@+id/titulo_pago"
-                android:textColor="#fff"
-                android:fontFamily="@font/poppins_bold"
-                android:textSize="24dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="20dp"
-                android:layout_centerVertical="true"/>
-
-        </RelativeLayout>
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/app_blank_background"
-            android:layout_marginEnd="40dp"
-            android:layout_marginTop="20dp">
+            android:background="@color/white"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:fontFamily="@font/poppins_bold"
+                android:fontFamily="@font/poppins_normal"
                 android:id="@+id/numero"
                 android:textColor="@color/main"
-                android:textSize="48dp"
+                android:textSize="30dp"
                 android:layout_marginBottom="-20dp"
                 android:layout_marginTop="-5dp"
                 android:textAlignment="center"/>
@@ -65,38 +44,71 @@
 
         </LinearLayout>
 
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="70dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Titulo del pago"
+                android:id="@+id/titulo_pago"
+                android:layout_marginTop="5dp"
+                android:textColor="#fff"
+                android:fontFamily="@font/poppins_bold"
+                android:textSize="16dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Titulo del pago"
+                android:textColor="#fff"
+                android:fontFamily="@font/poppins_normal"
+                android:textSize="14dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/titulo_pago"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2020-02-02"
+                android:textColor="#fff"
+                android:fontFamily="@font/poppins_light"
+                android:textSize="14dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="50dp"
+                android:id="@+id/fecha_de_vencimiento"/>
+
+        </RelativeLayout>
+
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#fff"
-        android:layout_marginTop="120dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"/>
+        android:layout_marginTop="80dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"/>
 
     <Button
         android:layout_width="90dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
         android:id="@+id/boton_pp"
         android:text="pendiente"
         android:background="@drawable/estado_background"
         android:fontFamily="@font/poppins_light"
         android:textColor="#fff"
-        android:layout_marginTop="130dp"
-        android:layout_alignParentStart="true"/>
+        android:layout_marginTop="5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2020-02-02"
-        android:textColor="#fff"
-        android:fontFamily="@font/poppins_light"
-        android:textSize="16dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="130dp"
-        android:layout_marginRight="40dp"
-        android:id="@+id/fecha_de_vencimiento"/>
+
 
 </RelativeLayout>

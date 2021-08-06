@@ -25,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -58,74 +60,85 @@ public class PagoAdapter extends RecyclerView.Adapter<PagoAdapter.ViewHolder>{
 
         holder.titulo_pago.setText(pago.getNombre());
 
-        String fecha = fechaTraducida(pago.getFecha_de_vencimiento());
+        String fecha = pago.getFecha_de_vencimiento();
         holder.fecha.setText(fecha);
 
         fechaActual = Calendar.getInstance().getTime();
-        String fechaA = fechaActual.toString().substring(0,11)+fechaActual.toString().substring(30,34);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        String[] fechaA = DateFormat.getDateInstance(DateFormat.SHORT).format(fechaActual).split("/"); //mm/dd/yy
+        String[] fechaP = pago.getFecha_de_vencimiento().split("/");
 
-        if(pago.getFecha_de_vencimiento().substring(11, 15).equals(fechaA.substring(11,15))){
-            if(pago.getFecha_de_vencimiento().substring(4, 7).equals(fechaA.substring(4,7))){
-                if(Integer.parseInt(pago.getFecha_de_vencimiento().substring(8, 10))-Integer.parseInt(fechaA.substring(8,10)) > 0){
-                    holder.numero.setText(String.valueOf(Integer.parseInt(pago.getFecha_de_vencimiento().substring(8, 10))-Integer.parseInt(fechaA.substring(8,10))));
-                    holder.tiempo.setText("Días");
+        int añoA = Integer.parseInt(fechaA[2]);
+        int mesA = Integer.parseInt(fechaA[0]);
+        int diaA = Integer.parseInt(fechaA[1]);
+
+        int añoP = Integer.parseInt(fechaP[2]);
+        int mesP = Integer.parseInt(fechaP[0]);
+        int diaP = Integer.parseInt(fechaP[1]);
+
+        if(añoP > añoA){
+            if((añoP - añoA) == 1) {
+                if ((12 - mesA) + (mesP) < 12 && (12 - mesA) + (mesP) > 1) {
+                    holder.numero.setText(String.valueOf((12 - mesA) + (mesP)));
+                    holder.tiempo.setText("Meses");
                 }
-                else if(Integer.parseInt(pago.getFecha_de_vencimiento().substring(8, 10))-Integer.parseInt(fechaA.substring(8,10)) == 0){
-                    holder.numero.setText("0");
-                    holder.tiempo.setText("Días");
+                else if((12 - mesA) + (mesP) == 1){
+                    if((30 - diaA) + (diaP) < 30 && (30 - diaA) + (diaP) > 1){
+                        holder.numero.setText(String.valueOf((30 - diaA) + (diaP)));
+                        holder.tiempo.setText("Días");
+                    }
+                    else if((30 - diaA) + (diaP) == 1){
+                        holder.numero.setText(String.valueOf((30 - diaA) + (diaP)));
+                        holder.tiempo.setText("Día");
+                    }
+                    else {
+                        holder.numero.setText(String.valueOf((12 - mesA) + (mesP)));
+                        holder.tiempo.setText("Mes");
+                    }
                 }
                 else {
-                    holder.numero.setText("0");
-                    holder.tiempo.setText("Vencido");
+                    holder.numero.setText(String.valueOf(añoP-añoA));
+                    holder.tiempo.setText("Año");
                 }
             }
             else {
-                int mesesCount = meses(pago.getFecha_de_vencimiento().substring(4, 7), fechaA.substring(4, 7), 0);
-
-                if(mesesCount == 0){
-                    holder.numero.setText(String.valueOf(mesesCount));
-                    holder.tiempo.setText("Vencido");
+                holder.numero.setText(String.valueOf(añoP-añoA));
+                holder.tiempo.setText("Años");
+            }
+        }
+        else if(añoP == añoA){
+            if((mesP-mesA) > 1){
+                holder.numero.setText(String.valueOf(mesP-mesA));
+                holder.tiempo.setText("Meses");
+            }
+            else if((mesP-mesA) == 1){
+                if((30 - diaA) + (diaP) < 30 && (30 - diaA) + (diaP) > 1){
+                    holder.numero.setText(String.valueOf((30 - diaA) + (diaP)));
+                    holder.tiempo.setText("Días");
                 }
-                else if(mesesCount < 0){
-                    int mesesD = mesesCount*-1;
-                    int diasM = 30;
-                    int sumM = (30*mesesD);
-                    if(fechaA.substring(4, 7).equals("Jan") || fechaA.substring(4, 7).equals("Mar") || fechaA.substring(4, 7).equals("May")
-                            || fechaA.substring(4, 7).equals("Jul") || fechaA.substring(4, 7).equals("Aug") || fechaA.substring(4, 7).equals("Oct")
-                            || fechaA.substring(4, 7).equals("Dec")){diasM = 31;}
-                    if(mesesCount == -1){sumM=0;}
-                    int diasDeMas = (diasM - Integer.parseInt(fechaA.substring(8, 10)))+sumM+Integer.parseInt(pago.getFecha_de_vencimiento().substring(8, 10));
-                    if(diasDeMas > 30){
-                        holder.numero.setText(String.valueOf(diasDeMas/30));
-                        holder.tiempo.setText("Meses");
-                    }
-                    else {
-                        holder.numero.setText(String.valueOf(diasDeMas));
-                        holder.tiempo.setText("Días");
-                    }
+                else if((30 - diaA) + (diaP) == 1){
+                    holder.numero.setText(String.valueOf((30 - diaA) + (diaP)));
+                    holder.tiempo.setText("Día");
                 }
                 else {
-                    holder.numero.setText(String.valueOf(mesesCount));
-                    holder.tiempo.setText("Meses");
+                    holder.numero.setText(String.valueOf(mesP - mesA));
+                    holder.tiempo.setText("Mes");
+                }
+            }
+            else if(mesP == mesA){
+                if((diaP - diaA) >= 0){
+                    holder.numero.setText(String.valueOf(diaP - diaA));
+                    holder.tiempo.setText("Días");
+                }
+                else{
+                    holder.numero.setText("0");
+                    holder.tiempo.setText("Vencido");
                 }
             }
         }
         else {
-            if(Integer.parseInt(pago.getFecha_de_vencimiento().substring(11, 15)) > Integer.parseInt(fechaA.substring(11,15))){
-                if(Integer.parseInt(pago.getFecha_de_vencimiento().substring(11, 15)) - Integer.parseInt(fechaA.substring(11,15)) > 1){
-                    holder.tiempo.setText("Años");
-                    holder.numero.setText(String.valueOf(Integer.parseInt(pago.getFecha_de_vencimiento().substring(11, 15)) - Integer.parseInt(fechaA.substring(11,15))));
-                }
-                else {
-                    int mesesCount = meses(pago.getFecha_de_vencimiento().substring(4, 7), fechaA.substring(4, 7), 1);
-                    holder.numero.setText(String.valueOf(mesesCount));
-                    holder.tiempo.setText("Meses");
-                }
-            }
-            else {
-                holder.tiempo.setText("Vencido");
-                holder.numero.setText("0");
-            }
+            holder.numero.setText("0");
+            holder.tiempo.setText("Vencido");
         }
 
         if(pago.getEstado().equals("pago")){
