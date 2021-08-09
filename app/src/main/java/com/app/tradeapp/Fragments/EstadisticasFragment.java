@@ -1,6 +1,7 @@
 package com.app.tradeapp.Fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.Typeface;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -42,6 +44,7 @@ import com.google.firebase.database.collection.LLRBNode;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class EstadisticasFragment extends Fragment {
 
@@ -72,8 +75,6 @@ public class EstadisticasFragment extends Fragment {
         pieChart = view.findViewById(R.id.pieChart);
 
         administrar_Ingresos();
-        administrar_Gastos();
-        balance(totalIngresos, totalGastos);
 
         return view;
     }
@@ -100,10 +101,14 @@ public class EstadisticasFragment extends Fragment {
 
                 //double totalIngresos = 0;
                 for (double i : lista_ingresos) {
-                    EstadisticasFragment.this.balance(totalIngresos += i, EstadisticasFragment.this.totalGastos);
-                    String ingresoNeto = String.valueOf(numberFormat.format(totalIngresos));
-                    ingresosTotales.setText(ingresoNeto);
+                    totalIngresos += i;
                 }
+
+                String ingresoNeto = numberFormat.format(totalIngresos);
+                ingresosTotales.setText(ingresoNeto);
+
+                administrar_Gastos(totalIngresos);
+
             }
 
             @Override
@@ -113,7 +118,7 @@ public class EstadisticasFragment extends Fragment {
         });
     }
 
-    private void administrar_Gastos() {
+    private void administrar_Gastos(double total_ingresos) {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("transacciones").child("gastos").child(firebaseUser.getUid());
@@ -130,19 +135,17 @@ public class EstadisticasFragment extends Fragment {
                     String str_gasto = gestionTransaccion.getValor();
                     double gasto = Double.parseDouble(str_gasto);
                     lista_gastos.add(gasto);
-                    if (snapshot.child("categoria").equals("Hogar")) {
-                    }
-                    else {
-                    }
-
                 }
 
                 //double totalGastos = 0;
                 for (double i : lista_gastos) {
-                    EstadisticasFragment.this.balance(EstadisticasFragment.this.totalIngresos, totalGastos += i);
-                    String gastoNeto = String.valueOf(numberFormat.format(totalGastos));
-                    egresosTotales.setText(gastoNeto);
+                    totalGastos += i;
                 }
+
+                String gastoNeto = numberFormat.format(totalGastos);
+                egresosTotales.setText(gastoNeto);
+
+                balance(total_ingresos, totalGastos);
 
             }
 
@@ -166,6 +169,10 @@ public class EstadisticasFragment extends Fragment {
         pieChart.animateY(1000);
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        final int[] CUSTOM_COLORS = {
+                Color.rgb(0, 27, 72),
+                Color.rgb(0, 68, 129)
+        };
 
         pieEntries.add(new PieEntry((float) ingresos, "Ingresos"));
         pieEntries.add(new PieEntry((float) gastos, "Gastos"));
@@ -174,13 +181,19 @@ public class EstadisticasFragment extends Fragment {
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         dataSet.setValueFormatter(new PercentFormatter());
-        dataSet.setColors(ColorTemplate.PASTEL_COLORS);
+        dataSet.setColors(CUSTOM_COLORS);
         dataSet.setValueTextSize(14f);
+        dataSet.setValueTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
         dataSet.setValueTextColor(Color.WHITE);
 
         PieData pieData = new PieData();
         pieData.addDataSet(dataSet);
         pieChart.setData(pieData);
+        pieChart.setCenterTextTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
+        pieChart.setEntryLabelTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
+        pieChart.setNoDataTextTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
+        pieChart.setHoleRadius(2);
+        pieChart.setTransparentCircleAlpha(0);
 
         Legend legend = pieChart.getLegend();
         legend.setForm(Legend.LegendForm.CIRCLE);

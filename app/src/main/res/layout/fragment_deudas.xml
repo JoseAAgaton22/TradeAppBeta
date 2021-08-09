@@ -54,49 +54,58 @@
         android:paddingEnd="20dp"
         android:id="@+id/deudas_titulo"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/app_blank_background"
+        android:layout_marginTop="170dp">
+
+        <LinearLayout
+            android:layout_width="350dp"
+            android:layout_height="200dp"
+            android:background="@drawable/empty_background"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:id="@+id/empty_items"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_warning"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aún no hay nada por aquí"
+                android:fontFamily="@font/poppins_light"
+                android:textAlignment="center"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:text="crear"
+                android:fontFamily="@font/poppins_light"
+                android:background="@drawable/empty_background"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="80dp"
+                android:layout_marginTop="20dp"
+                android:paddingTop="2dp"
+                android:id="@+id/boton_crear_aviso"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recycler_pagos"
         android:layout_marginTop="-30dp"
         android:layout_below="@id/deudas_titulo"
-        android:paddingTop="30dp"
-        android:background="@drawable/app_blank_background"/>
+        android:paddingTop="30dp" />
 
-    <LinearLayout
-        android:layout_width="350dp"
-        android:layout_height="200dp"
-        android:background="@drawable/empty_background"
-        android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:id="@+id/empty_items"
-        android:layout_centerHorizontal="true">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:src="@drawable/ic_warning"
-            android:layout_marginTop="30dp"/>
-    
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Aún no hay nada por aquí"
-            android:fontFamily="@font/poppins_light"
-            android:textAlignment="center"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:text="crear"
-            android:fontFamily="@font/poppins_light"
-            android:background="@drawable/empty_background"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="80dp"
-            android:layout_marginTop="20dp"
-            android:paddingTop="2dp"
-            android:id="@+id/boton_crear_aviso"/>
-
-    </LinearLayout>
 
 </RelativeLayout>

@@ -8,124 +8,146 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <GridLayout
-            android:id="@+id/grid_transaccionesTotales"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:columnCount="2">
+            android:text="Tus Estadísticas"
+            android:fontFamily="@font/poppins_normal"
+            android:textSize="36dp"
+            android:background="@drawable/app_background"
+            android:textColor="@color/white"
+            android:paddingTop="40dp"
+            android:paddingBottom="50dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:id="@+id/deudas_titulo"/>
 
-            <TextView
-                android:id="@+id/ingresosTotales"
-                android:layout_width="167dp"
-                android:layout_height="60dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/user_background"
-                android:elevation="5dp"
-                android:fontFamily="@font/poppins_bold"
-                android:paddingStart="12dp"
-                android:paddingTop="15dp"
-                android:paddingEnd="12dp"
-                android:hint="$0 COP"
-                android:textAlignment="center"
-                android:textColor="@color/main"
-                android:textSize="19dp" />
-
-            <TextView
-                android:id="@+id/gastosTotales"
-                android:layout_width="167dp"
-                android:layout_height="60dp"
-                android:textAlignment="center"
-                android:textSize="19dp"
-                android:textColor="@color/main"
-                android:paddingTop="15dp"
-                android:hint="$0 COP"
-                android:fontFamily="@font/poppins_bold"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:elevation="5dp"
-                android:background="@drawable/user_background"
-                android:layout_margin="5dp"/>
-
-            <TextView
-                android:text="Ingresos totales"
-                android:fontFamily="@font/poppins_light"
-                android:layout_width="167dp"
-                android:textAlignment="center"
-                android:textColor="@color/main"
-                android:textSize="18dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:lineHeight="10dp"/>
-
-            <TextView
-                android:text="Gastos totales"
-                android:fontFamily="@font/poppins_light"
-                android:layout_width="167dp"
-                android:textAlignment="center"
-                android:textColor="@color/main"
-                android:textSize="18dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:lineHeight="10dp"/>
-
-        </GridLayout>
-
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/items_background"
-            android:layout_below="@id/grid_transaccionesTotales"
-            android:elevation="2dp"
-            android:id="@+id/proximo_pago">
+            android:layout_height="wrap_content"
+            android:background="@drawable/app_blank_background"
+            android:layout_marginTop="120dp">
 
-            <LinearLayout
+            <GridLayout
+                android:id="@+id/grid_transaccionesTotales"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:columnCount="2"
+                android:paddingTop="10dp">
 
                 <TextView
-                    android:id="@+id/txt_balance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:text="Balance general"
-                    android:textColor="@color/white"
-                    android:textSize="22dp"
-                    android:fontFamily="@font/poppins_normal"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/balanceGeneral"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="$0,0 COP"
-                    android:textColorHint="@color/white"
+                    android:id="@+id/ingresosTotales"
+                    android:layout_width="167dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/user_background"
+                    android:elevation="5dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:textSize="24dp"
-                    android:textColor="@color/white"
-                    android:textAlignment="center"/>
+                    android:paddingStart="12dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="12dp"
+                    android:hint="$0 COP"
+                    android:textAlignment="center"
+                    android:textColor="@color/main"
+                    android:textSize="19dp" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/gastosTotales"
+                    android:layout_width="167dp"
+                    android:layout_height="60dp"
+                    android:textAlignment="center"
+                    android:textSize="19dp"
+                    android:textColor="@color/main"
+                    android:paddingTop="15dp"
+                    android:hint="$0 COP"
+                    android:fontFamily="@font/poppins_bold"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:elevation="5dp"
+                    android:background="@drawable/user_background"
+                    android:layout_margin="5dp"/>
 
-        </FrameLayout>
+                <TextView
+                    android:text="Ingresos totales"
+                    android:fontFamily="@font/poppins_light"
+                    android:layout_width="167dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/main"
+                    android:textSize="18dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:lineHeight="10dp"/>
 
+                <TextView
+                    android:text="Gastos totales"
+                    android:fontFamily="@font/poppins_light"
+                    android:layout_width="167dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/main"
+                    android:textSize="18dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:lineHeight="10dp"/>
 
+            </GridLayout>
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_below="@id/proximo_pago"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_margin="20dp"
+                android:background="@drawable/items_background"
+                android:layout_below="@id/pieChart"
+                android:elevation="2dp"
+                android:id="@+id/proximo_pago">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_balance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="Balance general"
+                        android:textColor="@color/white"
+                        android:textSize="22dp"
+                        android:fontFamily="@font/poppins_normal"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:id="@+id/balanceGeneral"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="$0,0 COP"
+                        android:textColorHint="@color/white"
+                        android:fontFamily="@font/poppins_bold"
+                        android:textSize="24dp"
+                        android:textColor="@color/white"
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_below="@id/grid_transaccionesTotales"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
