@@ -56,7 +56,7 @@ public class EditProfileActivity extends AppCompatActivity {
     TextView cambio_foto;
     RadioButton personal, familiar;
     EditText nombre, correo, bio;
-    ImageView foto_perfil,guardar_cambios;
+    ImageView foto_perfil,guardar_cambios, cancelar;
     ProgressDialog dialog;
 
     DatabaseReference reference;
@@ -79,6 +79,7 @@ public class EditProfileActivity extends AppCompatActivity {
         bio = findViewById(R.id.bio);
         foto_perfil = findViewById(R.id.foto);
         guardar_cambios = findViewById(R.id.listo);
+        cancelar = findViewById(R.id.cancel);
 
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -95,6 +96,15 @@ public class EditProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
+
         cambio_foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,12 +141,6 @@ public class EditProfileActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-    }
-
-    private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
     public void actualizarImagen () {

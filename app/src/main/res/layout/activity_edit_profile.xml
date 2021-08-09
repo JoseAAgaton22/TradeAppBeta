@@ -1,164 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditProfileActivity">
+    tools:context=".EditProfileActivity"
+    android:background="@drawable/app_background">
 
-    <LinearLayout
-        android:id="@+id/encabezado"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:background="@drawable/app_blank_background"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp">
 
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_cerrar"
-                android:padding="15dp"
-                android:layout_marginTop="10dp"
-                android:id="@+id/cancel"
-                android:layout_alignParentStart="true"/>
-
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_done"
-                android:layout_alignParentEnd="true"
-                android:padding="15dp"
-                android:id="@+id/listo"
-                android:layout_marginRight="20dp"/>
-
-        </RelativeLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/encabezado"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@color/main"/>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleImageView"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher_background" />
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/foto"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher_foreground" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@id/circleImageView">
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_cerrar"
+                        android:padding="15dp"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/cancel"
+                        android:layout_alignParentStart="true"/>
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_done"
+                        android:layout_alignParentEnd="true"
+                        android:padding="15dp"
+                        android:id="@+id/listo"
+                        android:layout_marginRight="20dp"/>
+
+                </RelativeLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/main"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/cambio_foto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Cambiar foto del perfil"
+            android:text="Editar perfil"
             android:fontFamily="@font/poppins_light"
-            android:textSize="15dp"
-            android:textColor="#67032F"
-            android:textAlignment="center"/>
-
-        <RadioGroup
-            android:id="@+id/radioGroup_cuenta"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:textSize="22dp"
+            android:textColor="@color/main"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal"
-            android:layout_below="@+id/textView2"
-            tools:layout_editor_absoluteX="20dp">
+            android:layout_marginTop="75dp"/>
 
-            <RadioButton
-                android:id="@+id/personal"
-                android:layout_width="wrap_content"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circleImageView"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_launcher_background" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/foto"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_launcher_foreground" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/circleImageView">
+
+            <TextView
+                android:id="@+id/cambio_foto"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:buttonTint="@color/main"
-                android:fontFamily="@font/poppins_normal"
-                android:text="Cuenta personal"
+                android:layout_marginTop="10dp"
+                android:text="Cambiar foto del perfil"
+                android:fontFamily="@font/poppins_light"
+                android:textSize="15dp"
+                android:textColor="#67032F"
+                android:textAlignment="center"/>
+
+            <RadioGroup
+                android:id="@+id/radioGroup_cuenta"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"
+                android:layout_below="@+id/textView2"
+                tools:layout_editor_absoluteX="20dp">
+
+                <RadioButton
+                    android:id="@+id/personal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/main"
+                    android:fontFamily="@font/poppins_normal"
+                    android:text="Cuenta personal"
+                    android:textColor="@color/main"
+                    android:textSize="16dp" />
+
+                <RadioButton
+                    android:id="@+id/familiar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/main"
+                    android:fontFamily="@font/poppins_normal"
+                    android:text="Cuenta familiar"
+                    android:textColor="@color/main"
+                    android:textSize="16dp" />
+
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/nombre_act"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Nombre"
+                android:fontFamily="@font/poppins_light"
                 android:textColor="@color/main"
-                android:textSize="16dp" />
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"/>
 
-            <RadioButton
-                android:id="@+id/familiar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:buttonTint="@color/main"
-                android:fontFamily="@font/poppins_normal"
-                android:text="Cuenta familiar"
+            <EditText
+                android:id="@+id/correo_act"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Correo"
+                android:fontFamily="@font/poppins_light"
                 android:textColor="@color/main"
-                android:textSize="16dp" />
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"/>
 
-        </RadioGroup>
-        
-        <EditText
-            android:id="@+id/nombre_act"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:hint="Nombre"
-            android:fontFamily="@font/poppins_light"
-            android:textColor="@color/main"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
+            <EditText
+                android:id="@+id/bio"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:background="@drawable/edit_text_background"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Biografía"
+                android:fontFamily="@font/poppins_light"
+                android:textColor="@color/main"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"/>
 
-        <EditText
-            android:id="@+id/correo_act"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:hint="Correo"
-            android:fontFamily="@font/poppins_light"
-            android:textColor="@color/main"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/bio"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:background="@drawable/edit_text_background"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:hint="Biografía"
-            android:fontFamily="@font/poppins_light"
-            android:textColor="@color/main"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"/>
+    </RelativeLayout>
 
-    </LinearLayout>
-</RelativeLayout>
+
+</FrameLayout>
