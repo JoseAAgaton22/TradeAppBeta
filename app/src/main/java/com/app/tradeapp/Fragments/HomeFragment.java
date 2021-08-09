@@ -3,9 +3,11 @@ package com.app.tradeapp.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +27,7 @@ import android.widget.TextView;
 
 import com.app.tradeapp.Adapters.UserAdapter;
 import com.app.tradeapp.Model.GestionTransaccion;
+import com.app.tradeapp.Model.Pago;
 import com.app.tradeapp.Model.User;
 import com.app.tradeapp.R;
 import com.app.tradeapp.StartActivity;
@@ -39,17 +42,29 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment {
 
     double ingresosTotales = 0;
     double gastosTotales = 0;
-    private TextView pagos, endeudamiento, porcentaje_ibre;
+    private TextView pagos, endeudamiento, porcentaje_ibre, conteo, tiempo;
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> mUsers;
+    private List<String> mPagos;
     private ImageView cancelar;
     private FrameLayout crear_billetera;
 
@@ -65,6 +80,8 @@ public class HomeFragment extends Fragment {
         firebaseAuth = FirebaseAuth.getInstance();
 
         pagos = view.findViewById(R.id.pagos);
+        conteo = view.findViewById(R.id.conteo);
+        tiempo = view.findViewById(R.id.tiempo);
         endeudamiento = view.findViewById(R.id.endeudamiento);
         porcentaje_ibre = view.findViewById(R.id.porcentaje_libre);
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -78,6 +95,7 @@ public class HomeFragment extends Fragment {
         crear_billetera = view.findViewById(R.id.crear_billetera);
 
         mUsers = new ArrayList<>();
+        mPagos = new ArrayList<>();
         userAdapter = new UserAdapter(getContext(), mUsers);
         recyclerView.setAdapter(userAdapter);
 
@@ -113,6 +131,7 @@ public class HomeFragment extends Fragment {
         });
 
         leerUsuarios();
+        leerProximopago();
         barraB.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -278,5 +297,58 @@ public class HomeFragment extends Fragment {
             porcentaje_ibre.setText("0%");
             endeudamiento.setText("0%");
         }
+    }
+
+    public void leerProximopago(){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("pagos").child(firebaseAuth.getCurrentUser().getUid());
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                mPagos.clear();
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Pago pago = dataSnapshot.getValue(Pago.class);
+                    mPagos.add(pago.getFecha_de_vencimiento());
+                }
+
+                if(mPagos.size() != 0) {
+                    String minDate = Collections.min(mPagos);
+
+                    Date fechaActual = Calendar.getInstance().getTime();
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+                    String fechaActualf = format.format(fechaActual);
+
+                    SimpleDateFormat formatToCalculate = new SimpleDateFormat("dd MM yyyy");
+
+                    try {
+                        Date fecha1 = format.parse(minDate);
+                        Date fecha2 = format.parse(fechaActualf);
+                        long difference = fecha1.getTime() - fecha2.getTime();
+                        String totalDifference = String.valueOf(TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS));
+
+                        if (Integer.parseInt(totalDifference) < 30) {
+                            conteo.setText(totalDifference);
+                            tiempo.setText("Días");
+                        } else if (Integer.parseInt(totalDifference) >= 30 && Integer.parseInt(totalDifference) < 365) {
+                            conteo.setText(String.valueOf(Integer.parseInt(totalDifference) / 30));
+                            tiempo.setText("Meses");
+                        } else {
+                            conteo.setText(String.valueOf(Integer.parseInt(totalDifference) / 365));
+                            tiempo.setText("Años");
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
     }
 }

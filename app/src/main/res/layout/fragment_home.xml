@@ -18,7 +18,7 @@
             android:elevation="8dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp">
 
             <ImageView
@@ -55,7 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/toolbar"
-            android:id="@+id/recycler_view"/>
+            android:id="@+id/recycler_view"
+            />
 
         <TextView
             android:layout_width="match_parent"
@@ -235,26 +236,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginStart="40dp">
+                    android:layout_marginStart="20dp">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:text="3"
+                        android:text="0"
                         android:fontFamily="@font/poppins_bold"
                         android:textColor="#fff"
                         android:textSize="38dp"
-                        android:layout_marginTop="7dp"/>
+                        android:layout_marginTop="7dp"
+                        android:id="@+id/conteo"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="60dp"
                         android:layout_height="wrap_content"
+                        android:textAlignment="center"
                         android:text="Días"
                         android:fontFamily="@font/poppins_light"
                         android:textColor="#fff"
                         android:textSize="16dp"
-                        android:layout_marginTop="-20dp"/>
+                        android:layout_marginTop="-20dp"
+                        android:id="@+id/tiempo"/>
 
                 </LinearLayout>
 

@@ -7,12 +7,13 @@ import java.util.Date;
 
 public class Pago {
 
-    private String id, nombre, descripcion, numero, tiempo, fecha_de_vencimiento, estado;
+    private String id, nombre, descripcion, valor, tiempo, fecha_de_vencimiento, estado;
 
-    public Pago(String id, String nombre, String descripcion, String fecha_de_vencimiento, String estado) {
+    public Pago(String id, String nombre, String descripcion, String valor, String fecha_de_vencimiento, String estado) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.valor = valor;
         this.fecha_de_vencimiento = fecha_de_vencimiento;
         this.estado = estado;
     }
@@ -44,12 +45,12 @@ public class Pago {
         this.descripcion = descripcion;
     }
 
-    public String getNumero() {
-        return numero;
+    public String getValor() {
+        return valor;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setValor(String valor) {
+        this.valor = valor;
     }
 
     public String getTiempo() {

@@ -198,8 +198,8 @@ public class WalletActivity extends AppCompatActivity {
         calendario.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                fechaVencimiento = DateFormat.getDateInstance(DateFormat.SHORT).format(dateClicked);;
-
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                fechaVencimiento = format.format(dateClicked);
                 ImageView done;
                 TimePicker timePicker;
 
