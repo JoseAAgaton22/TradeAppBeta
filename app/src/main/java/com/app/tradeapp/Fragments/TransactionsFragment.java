@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,18 +51,15 @@ public class TransactionsFragment extends Fragment {
     EditText valor_transaccion, descripcion_transaccion;
     RadioGroup rg_transaccion;
     RadioButton rb_ingreso, rb_gasto;
-    TextView categoria, fecha, descripcion;
-    ImageButton boton_categoria;
+    TextView fecha, descripcion;
     RecyclerView recyclerCategoria;
     Button boton_añadir;
-    String tipoTransaccion = "";
     ProgressDialog dialog;
     Activity activity;
 
     public TransactionsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,10 +82,8 @@ public class TransactionsFragment extends Fragment {
         rg_transaccion = view.findViewById(R.id.radioGroup_transaccion);
         rb_ingreso = view.findViewById(R.id.button_ingreso);
         rb_gasto = view.findViewById(R.id.button_gasto);
-        categoria = view.findViewById(R.id.txt_categoria);
         fecha = view.findViewById(R.id.fecha_transaccion);
         descripcion = view.findViewById(R.id.descripcion);
-        boton_categoria = view.findViewById(R.id.button_categorias);
         boton_añadir = view.findViewById(R.id.button_añadir);
 
         recyclerCategoria = view.findViewById(R.id.recyclerCategoria);
@@ -108,42 +106,25 @@ public class TransactionsFragment extends Fragment {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.button_ingreso:
+                        recyclerCategoria.setVisibility(View.GONE);
+                        final IngresosAdapter adapater = new IngresosAdapter(IngresosAdapter.listaCategorias_ingreso);
+                        recyclerCategoria.setAdapter(adapater);
                         if (recyclerCategoria.getVisibility() == View.VISIBLE) {
                             recyclerCategoria.setVisibility(View.GONE);
+                        } else {
+                            recyclerCategoria.setVisibility(View.VISIBLE);
                         }
                         break;
                     case R.id.button_gasto:
+                        recyclerCategoria.setVisibility(View.GONE);
+                        final CategoriasAdapater adapaterCat = new CategoriasAdapater(CategoriasAdapater.listaCategorias_gasto);
+                        recyclerCategoria.setAdapter(adapaterCat);
                         if (recyclerCategoria.getVisibility() == View.VISIBLE) {
                             recyclerCategoria.setVisibility(View.GONE);
+                        } else {
+                            recyclerCategoria.setVisibility(View.VISIBLE);
                         }
                         break;
-                }
-            }
-        });
-
-        boton_categoria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boton_categoria.setPressed(true);
-                if (rb_gasto.isChecked() == false && rb_ingreso.isChecked() == false){
-                    Toast.makeText (getActivity(), "Seleccione el tipo de transacción", Toast.LENGTH_LONG).show();
-                } else if (rb_ingreso.isChecked() == true){
-                    final IngresosAdapter adapater = new IngresosAdapter(IngresosAdapter.listaCategorias_ingreso);
-                    recyclerCategoria.setAdapter(adapater);
-                    if (recyclerCategoria.getVisibility() == View.VISIBLE) {
-                        recyclerCategoria.setVisibility(View.GONE);
-                    } else {
-                        recyclerCategoria.setVisibility(View.VISIBLE);
-                    }
-
-                } else if (rb_gasto.isChecked() == true) {
-                    final CategoriasAdapater adapaterCat = new CategoriasAdapater(CategoriasAdapater.listaCategorias_gasto);
-                    recyclerCategoria.setAdapter(adapaterCat);
-                    if (recyclerCategoria.getVisibility() == View.VISIBLE) {
-                        recyclerCategoria.setVisibility(View.GONE);
-                    } else {
-                        recyclerCategoria.setVisibility(View.VISIBLE);
-                    }
                 }
             }
         });

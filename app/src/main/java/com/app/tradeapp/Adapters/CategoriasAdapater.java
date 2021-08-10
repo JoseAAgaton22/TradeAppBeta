@@ -10,8 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.tradeapp.Fragments.TransactionsFragment;
 import com.app.tradeapp.Model.Categorias;
 import com.app.tradeapp.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
