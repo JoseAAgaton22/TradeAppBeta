@@ -1,22 +1,31 @@
 package com.app.tradeapp.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.Typeface;
 import android.graphics.fonts.Font;
 import android.graphics.fonts.FontFamily;
+import android.icu.text.Edits;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.tradeapp.Model.GestionTransaccion;
@@ -44,16 +53,25 @@ import com.google.firebase.database.collection.LLRBNode;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class EstadisticasFragment extends Fragment {
 
     TextView ingresosTotales, egresosTotales, balanceGeneral;
+    Spinner filtros;
+    LinearLayout empty_items;
     double totalIngresos = 0;
     double totalGastos = 0;
-    private LineChart lineChart;
-    private LineDataSet lineDataSet;
     private PieChart pieChart;
+    List<GestionTransaccion> lista_ingresos;
+    List<GestionTransaccion> lista_gastos;
+    Button boton_crear;
+    Context context;
 
     public EstadisticasFragment() {
         // Required empty public constructor
@@ -73,13 +91,51 @@ public class EstadisticasFragment extends Fragment {
         egresosTotales = view.findViewById(R.id.gastosTotales);
         balanceGeneral = view.findViewById(R.id.balanceGeneral);
         pieChart = view.findViewById(R.id.pieChart);
+        empty_items = view.findViewById(R.id.empty_items);
+        boton_crear = view.findViewById(R.id.boton_crear_aviso);
+        context = getContext();
 
-        administrar_Ingresos();
+        filtros = view.findViewById(R.id.filtros);
+
+        lista_gastos = new ArrayList<>();
+        lista_ingresos = new ArrayList<>();
+
+        String[] filtro = {"General", "Ingresos", "Egresos"};
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.spinner_item_bancos, filtro);
+        filtros.setAdapter(adapter);
+        pieChart.setVisibility(View.GONE);
+
+        filtros.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    administrar_Ingresos("general");
+                }
+                else if(position == 1){
+                    administrar_Ingresos("ingresos");
+                }
+                else if(position == 2){
+                    administrar_Ingresos("egresos");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        boton_crear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new TransactionsFragment(), "PERFIL").commit();
+            }
+        });
 
         return view;
     }
 
-    private void administrar_Ingresos() {
+    private void administrar_Ingresos(String filtro) {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("transacciones").child("ingresos").child(firebaseUser.getUid());
@@ -89,25 +145,17 @@ public class EstadisticasFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
-                ArrayList<Double> lista_ingresos = new ArrayList<>();
 
+                lista_ingresos.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     GestionTransaccion gestionTransaccion = dataSnapshot.getValue(GestionTransaccion.class);
-                    String str_ingreso = gestionTransaccion.getValor();
-                    double ingreso = Double.parseDouble(str_ingreso);
-                    lista_ingresos.add(ingreso);
-
+                    lista_ingresos.add(gestionTransaccion);
                 }
 
-                //double totalIngresos = 0;
-                for (double i : lista_ingresos) {
-                    totalIngresos += i;
-                }
+                //String ingresoNeto = numberFormat.format(totalIngresos);
+                //ingresosTotales.setText(ingresoNeto);
 
-                String ingresoNeto = numberFormat.format(totalIngresos);
-                ingresosTotales.setText(ingresoNeto);
-
-                administrar_Gastos(totalIngresos);
+                administrar_Gastos(filtro);
 
             }
 
@@ -116,9 +164,10 @@ public class EstadisticasFragment extends Fragment {
 
             }
         });
+
     }
 
-    private void administrar_Gastos(double total_ingresos) {
+    private void administrar_Gastos(String filtro) {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("transacciones").child("gastos").child(firebaseUser.getUid());
@@ -128,24 +177,17 @@ public class EstadisticasFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
-                ArrayList<Double> lista_gastos = new ArrayList<>();
 
+                lista_gastos.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     GestionTransaccion gestionTransaccion = dataSnapshot.getValue(GestionTransaccion.class);
-                    String str_gasto = gestionTransaccion.getValor();
-                    double gasto = Double.parseDouble(str_gasto);
-                    lista_gastos.add(gasto);
+                    lista_gastos.add(gestionTransaccion);
                 }
 
-                //double totalGastos = 0;
-                for (double i : lista_gastos) {
-                    totalGastos += i;
-                }
+                //String gastoNeto = numberFormat.format(totalGastos);
+                //egresosTotales.setText(gastoNeto);
 
-                String gastoNeto = numberFormat.format(totalGastos);
-                egresosTotales.setText(gastoNeto);
-
-                balance(total_ingresos, totalGastos);
+                balance(filtro);
 
             }
 
@@ -156,47 +198,126 @@ public class EstadisticasFragment extends Fragment {
         });
     }
 
-    private void balance(double ingresos, double gastos) {
+    private void balance(String filtro) {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
+
+        double ingresos = 0;
+        double gastos = 0;
+
+        for(GestionTransaccion ingreso : lista_ingresos){
+            ingresos += Double.parseDouble(ingreso.getValor());
+        }
+        for(GestionTransaccion gasto : lista_gastos){
+            gastos += Double.parseDouble(gasto.getValor());
+        }
+
         double balance_general = ingresos - gastos;
-        balanceGeneral.setText(String.valueOf(numberFormat.format(balance_general)));
+        ingresosTotales.setText(numberFormat.format(ingresos));
+        egresosTotales.setText(numberFormat.format(gastos));
+        balanceGeneral.setText(numberFormat.format(balance_general));
 
-        //Gráfica del balance general
-        pieChart.setUsePercentValues(true);
-        pieChart.setDrawHoleEnabled(true);
-        pieChart.setDragDecelerationFrictionCoef(0.99f);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.animateY(1000);
 
-        ArrayList<PieEntry> pieEntries = new ArrayList<>();
-        final int[] CUSTOM_COLORS = {
-                Color.rgb(0, 27, 72),
-                Color.rgb(0, 68, 129)
-        };
+        if(lista_gastos.size() != 0 || lista_ingresos.size() != 0) {
 
-        pieEntries.add(new PieEntry((float) ingresos, "Ingresos"));
-        pieEntries.add(new PieEntry((float) gastos, "Gastos"));
+            empty_items.setVisibility(View.GONE);
+            pieChart.setVisibility(View.VISIBLE);
+            //Gráfica del balance general
+            pieChart.setUsePercentValues(true);
+            pieChart.setDrawHoleEnabled(true);
+            pieChart.setDragDecelerationFrictionCoef(0.99f);
+            pieChart.getDescription().setEnabled(false);
+            pieChart.animateY(1000);
 
-        PieDataSet dataSet = new PieDataSet(pieEntries, "");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setValueFormatter(new PercentFormatter());
-        dataSet.setColors(CUSTOM_COLORS);
-        dataSet.setValueTextSize(14f);
-        dataSet.setValueTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
-        dataSet.setValueTextColor(Color.WHITE);
+            ArrayList<PieEntry> pieEntries = new ArrayList<>();
+            final int[] CUSTOM_COLORS = {
+                    Color.rgb(0, 27, 72),
+                    Color.rgb(0, 68, 129)
+            };
 
-        PieData pieData = new PieData();
-        pieData.addDataSet(dataSet);
-        pieChart.setData(pieData);
-        pieChart.setCenterTextTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
-        pieChart.setEntryLabelTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
-        pieChart.setNoDataTextTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
-        pieChart.setHoleRadius(2);
-        pieChart.setTransparentCircleAlpha(0);
+            if (filtro.equals("general")) {
+                pieEntries.add(new PieEntry((float) ingresos, "Ingresos"));
+                pieEntries.add(new PieEntry((float) gastos, "Gastos"));
+            } else if (filtro.equals("ingresos")) {
 
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+                if(lista_ingresos.size() != 0) {
+                    Map<String, String> datos = new HashMap<String, String>();
+
+                    for (GestionTransaccion gestionTransaccion : lista_ingresos) {
+
+                        String categoria = gestionTransaccion.getCategoria();
+                        String valor = gestionTransaccion.getValor();
+
+                        if (datos.containsKey(categoria)) {
+                            datos.put(categoria, String.valueOf(Double.parseDouble(datos.get(categoria)) + Double.parseDouble(gestionTransaccion.getValor())));
+                        } else {
+                            datos.put(categoria, valor);
+                        }
+                    }
+
+                    Iterator iterator = datos.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry dato = (Map.Entry) iterator.next();
+                        pieEntries.add(new PieEntry(Float.parseFloat(String.valueOf(dato.getValue())), String.valueOf(dato.getKey())));
+                    }
+                }
+                else {
+                    empty_items.setVisibility(View.VISIBLE);
+                    pieChart.setVisibility(View.GONE);
+                }
+
+            } else if (filtro.equals("egresos")) {
+                if(lista_gastos.size() != 0) {
+                    Map<String, String> datos = new HashMap<String, String>();
+
+                    for (GestionTransaccion gestionTransaccion : lista_gastos) {
+
+                        String categoria = gestionTransaccion.getCategoria();
+                        String valor = gestionTransaccion.getValor();
+
+                        if (datos.containsKey(categoria)) {
+                            datos.put(categoria, String.valueOf(Double.parseDouble(datos.get(categoria)) + Double.parseDouble(gestionTransaccion.getValor())));
+                        } else {
+                            datos.put(categoria, valor);
+                        }
+                    }
+
+                    Iterator iterator = datos.entrySet().iterator();
+                    while (iterator.hasNext()) {
+                        Map.Entry dato = (Map.Entry) iterator.next();
+                        pieEntries.add(new PieEntry(Float.parseFloat(String.valueOf(dato.getValue())), String.valueOf(dato.getKey())));
+                    }
+                }
+                else {
+                    empty_items.setVisibility(View.VISIBLE);
+                    pieChart.setVisibility(View.GONE);
+                }
+            }
+
+            PieDataSet dataSet = new PieDataSet(pieEntries, "");
+            dataSet.setSliceSpace(3f);
+            dataSet.setSelectionShift(5f);
+            dataSet.setValueFormatter(new PercentFormatter());
+            dataSet.setColors(CUSTOM_COLORS);
+            dataSet.setValueTextSize(14f);
+            if(getContext() != null) {
+                dataSet.setValueTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
+            }
+            dataSet.setValueTextColor(Color.WHITE);
+
+            PieData pieData = new PieData();
+            pieData.addDataSet(dataSet);
+            pieChart.setData(pieData);
+            if(getContext() != null) {
+                pieChart.setCenterTextTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
+                pieChart.setEntryLabelTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
+                pieChart.setNoDataTextTypeface(ResourcesCompat.getFont(getContext(), R.font.poppins_light));
+            }
+            pieChart.setHoleRadius(2);
+            pieChart.setTransparentCircleAlpha(0);
+
+            Legend legend = pieChart.getLegend();
+            legend.setForm(Legend.LegendForm.CIRCLE);
+            legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        }
     }
 }

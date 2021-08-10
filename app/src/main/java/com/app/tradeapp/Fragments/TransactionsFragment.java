@@ -99,7 +99,7 @@ public class TransactionsFragment extends Fragment {
         boton_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new HomeFragment(), "PERFIL").commit();
+                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new EstadisticasFragment()).commit();
             }
         });
 
@@ -273,6 +273,7 @@ public class TransactionsFragment extends Fragment {
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
                 dialog.dismiss();
+                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new HomeFragment()).commit();
             }
         });
     }
@@ -295,6 +296,7 @@ public class TransactionsFragment extends Fragment {
             @Override
             public void onComplete(@NonNull @NotNull Task<Void> task) {
                 dialog.dismiss();
+                ((FragmentActivity)getActivity()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, new HomeFragment()).commit();
             }
         });
     }

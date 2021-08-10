@@ -96,12 +96,64 @@
 
             </GridLayout>
 
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="200dp"
+                android:background="@drawable/empty_background"
+                android:orientation="vertical"
+                android:layout_below="@id/grid_transaccionesTotales"
+                android:layout_marginTop="100dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/empty_items"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_warning"
+                    android:layout_marginTop="30dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Aún no hay nada por aquí"
+                    android:fontFamily="@font/poppins_light"
+                    android:textAlignment="center"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:text="crear"
+                    android:fontFamily="@font/poppins_light"
+                    android:background="@drawable/empty_background"
+                    android:layout_marginLeft="80dp"
+                    android:layout_marginRight="80dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingTop="2dp"
+                    android:id="@+id/boton_crear_aviso"/>
+
+            </LinearLayout>
+
+            <Spinner
+                android:layout_width="110dp"
+                android:layout_height="35dp"
+                android:textAlignment="center"
+                android:background="@drawable/app_blank_background"
+                android:layout_below="@id/grid_transaccionesTotales"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:elevation="5dp"
+                android:fontFamily="@font/poppins_normal"
+                android:id="@+id/filtros"/>
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
-                android:layout_margin="20dp"
+                android:layout_marginTop="350dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/items_background"
-                android:layout_below="@id/pieChart"
+                android:layout_below="@id/grid_transaccionesTotales"
                 android:elevation="2dp"
                 android:id="@+id/proximo_pago">
 
@@ -145,6 +197,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+
                 android:layout_below="@id/grid_transaccionesTotales"/>
 
         </RelativeLayout>
