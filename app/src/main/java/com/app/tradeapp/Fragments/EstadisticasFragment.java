@@ -231,7 +231,10 @@ public class EstadisticasFragment extends Fragment {
             ArrayList<PieEntry> pieEntries = new ArrayList<>();
             final int[] CUSTOM_COLORS = {
                     Color.rgb(0, 27, 72),
-                    Color.rgb(0, 68, 129)
+                    Color.rgb(0, 68, 129),
+                    Color.rgb(1, 138, 190),
+                    Color.rgb(151, 202, 119),
+                    Color.rgb(222, 232, 241)
             };
 
             if (filtro.equals("general")) {
