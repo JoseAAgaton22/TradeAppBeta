@@ -1,4 +1,4 @@
-package com.app.tradeapp;
+package com.app.tradeapp.Model;
 
 import java.security.SecureRandom;
 import java.util.Locale;

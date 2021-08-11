@@ -74,8 +74,8 @@ public class PerfilFragment extends Fragment {
         biografia = view.findViewById(R.id.biografia_user);
         cerrar = view.findViewById(R.id.boton_cerrar);
 
-        datos_usuario();
-        perfil_usuario();
+        datosUsuario();
+        perfilUsuario();
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
@@ -99,7 +99,7 @@ public class PerfilFragment extends Fragment {
         return view;
     }
 
-    private void datos_usuario() {
+    private void datosUsuario() {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("usuarios").child(firebaseUser.getUid());
@@ -132,7 +132,7 @@ public class PerfilFragment extends Fragment {
         });
     }
 
-    public void perfil_usuario() {
+    public void perfilUsuario() {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference_amigos = FirebaseDatabase.getInstance().getReference("personas").child(firebaseUser.getUid()).child("agregados");

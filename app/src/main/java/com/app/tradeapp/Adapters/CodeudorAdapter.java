@@ -55,6 +55,7 @@ public class CodeudorAdapter extends RecyclerView.Adapter<CodeudorAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        final User codeudor = codeudorList.get(position);
         str_id = new ArrayList<>();
 
         final User user = codeudorList.get(position);
@@ -74,6 +75,7 @@ public class CodeudorAdapter extends RecyclerView.Adapter<CodeudorAdapter.ViewHo
                 else{
                     holder.boton_agregar.setBackgroundResource(R.drawable.button_background);
                     holder.boton_agregar.setText("AGREGAR");
+                    str_id.remove(codeudorList.get(position).getId());
                 }
             }
         });

@@ -284,7 +284,7 @@ public class HomeFragment extends Fragment {
 
     public void porcentajes (double ingresos, double gastos) {
 
-        if (ingresos!=0 || gastos!=0) {
+        if (ingresos!=0) {
             double porcentaje = ((ingresos - gastos) / ingresos) * 100;
             String str_porcentaje = String.valueOf(String.format("%.0f", porcentaje));
             porcentaje_ibre.setText(str_porcentaje + "%");

@@ -115,30 +115,30 @@ public class AmortizacionFragment extends Fragment {
                             resumen.setVisibility(View.VISIBLE);
                             if (seleccion.equals("Bancolombia")) {
                                 double tasaInteres = 0.0084;
-                                resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                             } else if (seleccion.equals("Banco de Bogotá")) {
                                 double tasaInteres = 0.0195;
-                                resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                             } else if (seleccion.equals("Banco de Occidente")) {
                                 double tasaInteres = 0.0092;
-                                resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                             } else if (seleccion.equals("Banco Popular")) {
                                 if (creditoDouble >= 25000000) {
                                     double tasaInteres = 0.012;
-                                    resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                    AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                                 } else if (creditoDouble > 10000000 && creditoDouble < 25000000) {
                                     double tasaInteres = 0.015;
-                                    resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                    AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                                 } else {
                                     double tasaInteres = 0.017;
-                                    resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                    AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                                 }
                             } else if (seleccion.equals("Banco Davivienda")) {
                                 double tasaInteres = 0.0228;
-                                resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                             } else if (seleccion.equals("Banco BBVA")) {
                                 double tasaInteres = 0.0085;
-                                resumen_Amortizacion_cuota(tasaInteres, creditoDouble, periodosInt);
+                                AmortizacionCuota(tasaInteres, creditoDouble, periodosInt);
                             } else if (seleccion.equals("Otra")) {
                                 String str_tasaInteres = tasaInteres.getText().toString();
 
@@ -147,7 +147,7 @@ public class AmortizacionFragment extends Fragment {
                                 } else {
                                     Double tasaInteresDouble = Double.parseDouble(str_tasaInteres);
                                     Double tasa = (Math.pow(1 + (tasaInteresDouble / 100), 0.0833333)) - 1;
-                                    resumen_Amortizacion_cuota(tasa, creditoDouble, periodosInt);
+                                    AmortizacionCuota(tasa, creditoDouble, periodosInt);
                                 }
                             }
                         }
@@ -175,30 +175,30 @@ public class AmortizacionFragment extends Fragment {
                                 resumen.setVisibility(View.VISIBLE);
                                 if (seleccion.equals("Bancolombia")) {
                                     double tasaInteres = 0.0084;
-                                    resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                    AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                 } else if (seleccion.equals("Banco de Bogotá")) {
                                     double tasaInteres = 0.0195;
-                                    resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                    AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                 } else if (seleccion.equals("Banco de Occidente")) {
                                     double tasaInteres = 0.0092;
-                                    resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                    AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                 } else if (seleccion.equals("Banco Popular")) {
                                     if (creditoDouble >= 25000000) {
                                         double tasaInteres = 0.012;
-                                        resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                        AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                     } else if (creditoDouble > 10000000 && creditoDouble < 25000000) {
                                         double tasaInteres = 0.015;
-                                        resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                        AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                     } else {
                                         double tasaInteres = 0.017;
-                                        resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                        AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                     }
                                 } else if (seleccion.equals("Banco Davivienda")) {
                                     double tasaInteres = 0.0228;
-                                    resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                    AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                 } else if (seleccion.equals("Banco BBVA")) {
                                     double tasaInteres = 0.0085;
-                                    resumen_Amortizacion_periodo(tasaInteres, creditoDouble, cuotaDouble);
+                                    AmortizacionPeriodo(tasaInteres, creditoDouble, cuotaDouble);
                                 } else if (seleccion.equals("Otra")) {
                                     String str_tasaInteres = tasaInteres.getText().toString();
 
@@ -207,7 +207,7 @@ public class AmortizacionFragment extends Fragment {
                                     } else {
                                         Double tasaInteresDouble = Double.parseDouble(str_tasaInteres);
                                         Double tasa = (Math.pow(1 + (tasaInteresDouble / 100), 0.0833333)) - 1;
-                                        resumen_Amortizacion_periodo(tasa, creditoDouble, cuotaDouble);
+                                        AmortizacionPeriodo(tasa, creditoDouble, cuotaDouble);
                                     }
                                 }
                             }
@@ -230,7 +230,7 @@ public class AmortizacionFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_amortizacion, container, false);
     }
 
-    private void resumen_Amortizacion_cuota(double tasaInteres, double credito, int periodo) {
+    private void AmortizacionCuota(double tasaInteres, double credito, int periodo) {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
         valor_credito.setText(String.valueOf(numberFormat.format(credito)));
         double amortizacionCuota = credito * ((Math.pow(1 + tasaInteres, periodo)) * tasaInteres) / (Math.pow(1 + tasaInteres, periodo) - 1);
@@ -243,7 +243,7 @@ public class AmortizacionFragment extends Fragment {
         interes_total.setText(String.valueOf(numberFormat.format(interes)));
     }
 
-    private void resumen_Amortizacion_periodo(double tasaInteres, double credito, double cuota) {
+    private void AmortizacionPeriodo(double tasaInteres, double credito, double cuota) {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
         valor_credito.setText(String.valueOf(numberFormat.format(credito)));
         double amortizacionPeriodos = Math.log(cuota / (cuota - (credito * tasaInteres))) / Math.log(1 + tasaInteres);

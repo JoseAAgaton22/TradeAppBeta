@@ -5,7 +5,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,10 +19,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +31,7 @@ import android.widget.Toast;
 
 import com.app.tradeapp.Adapters.CodeudorAdapter;
 import com.app.tradeapp.Adapters.SubvalorAdapter;
-import com.app.tradeapp.Adapters.UserAdapter;
+import com.app.tradeapp.Model.RandomString;
 import com.app.tradeapp.Model.Subvalor;
 import com.app.tradeapp.Model.User;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
@@ -50,6 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,6 +79,7 @@ public class GroupWalletActivity extends AppCompatActivity {
     Dialog hora;
     double total = 0;
 
+    FirebaseUser firebaseUser;
     String id;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -216,7 +215,8 @@ public class GroupWalletActivity extends AppCompatActivity {
         calendario.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                fechaVencimiento = dateClicked.toString().substring(0,11)+dateClicked.toString().substring(30,34);
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                fechaVencimiento = format.format(dateClicked);
 
                 ImageView done;
                 TimePicker timePicker;
@@ -259,9 +259,15 @@ public class GroupWalletActivity extends AppCompatActivity {
         boton_done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String str_valor_pago = valor_pago.getText().toString();
+                double pagoTotal = Double.parseDouble(str_valor_pago);
+                int codeudores = CodeudorAdapter.str_id.size() + 1;
+                double deudaDividida = pagoTotal/codeudores;
+
+                String str_deudaDividida = String.format("%.2f", deudaDividida);
                 String str_nombre_pago = nombre_pago.getText().toString();
                 String str_descripcion_pago = descripcion_pago.getText().toString();
-                String str_valor_pago = valor_pago.getText().toString();
 
                 if(TextUtils.isEmpty(str_nombre_pago) || TextUtils.isEmpty(str_valor_pago)){
                     Toast.makeText(GroupWalletActivity.this, "Debes poner un nombre y valor", Toast.LENGTH_SHORT).show();
@@ -272,13 +278,26 @@ public class GroupWalletActivity extends AppCompatActivity {
                 else if(fechaVencimiento.equals("") || horaVencimiento.equals("")){
                     Toast.makeText(GroupWalletActivity.this, "Debes seleccionar la fecha y hora", Toast.LENGTH_SHORT).show();
                 }
+                else if (CodeudorAdapter.str_id.size()==0) {
+                    Toast.makeText(GroupWalletActivity.this, "Debes seleccionar al menos un codeudor", Toast.LENGTH_LONG).show();
+                }
                 else{
                     try {
-                        total = Double.parseDouble(valor_pago.getText().toString());
+                        NotificationCompat.Builder builder = new NotificationCompat.Builder(GroupWalletActivity.this, "Mi notificacion");
+                        builder.setContentTitle("Notificación de prueba");
+                        builder.setSmallIcon(R.drawable.ic_trade_app);
+                        builder.setAutoCancel(true);
+                        builder.setContentText("Tienes un nuevo pago compartido en el que te corresponde pagar $"+str_deudaDividida);
+
+                        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(GroupWalletActivity.this);
+                        managerCompat.notify(1, builder.build());
+
                         dialog = new ProgressDialog(GroupWalletActivity.this);
                         dialog.setMessage("Estamos subiendo tu pago");
                         dialog.show();
-                        subirPago(str_nombre_pago, str_descripcion_pago, str_valor_pago, estado, fechaVencimiento, horaVencimiento);
+                        subirPago(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
+                        subirPagoCodeudor(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
+
                     }catch (Exception ex){
                         Toast.makeText(GroupWalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
                     }
@@ -289,9 +308,16 @@ public class GroupWalletActivity extends AppCompatActivity {
         boton_completado.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String str_valor_pago = valor_pago.getText().toString();
+                double pagoTotal = Double.parseDouble(str_valor_pago);
+                int codeudores = CodeudorAdapter.str_id.size() + 1;
+                double deudaDividida = pagoTotal/codeudores;
+
+                String str_deudaDividida = String.format("%.2f", deudaDividida);
                 String str_nombre_pago = nombre_pago.getText().toString();
                 String str_descripcion_pago = descripcion_pago.getText().toString();
-                String str_valor_pago = valor_pago.getText().toString();
+
 
                 if(TextUtils.isEmpty(str_nombre_pago) || TextUtils.isEmpty(str_valor_pago)){
                     Toast.makeText(GroupWalletActivity.this, "Debes poner un nombre y valor", Toast.LENGTH_SHORT).show();
@@ -302,19 +328,25 @@ public class GroupWalletActivity extends AppCompatActivity {
                 else if(fechaVencimiento.equals("") || horaVencimiento.equals("")){
                     Toast.makeText(GroupWalletActivity.this, "Debes seleccionar la fecha y hora", Toast.LENGTH_SHORT).show();
                 }
+                else if (CodeudorAdapter.str_id.size()==0) {
+                    Toast.makeText(GroupWalletActivity.this, "Debes seleccionar al menos un codeudor", Toast.LENGTH_LONG).show();
+                }
                 else{
                     try {
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(GroupWalletActivity.this, "Mi notificacion");
                         builder.setContentTitle("Notificación de prueba");
                         builder.setSmallIcon(R.drawable.ic_trade_app);
                         builder.setAutoCancel(true);
-
-                        for (int i = 0; i<CodeudorAdapter.str_id.size(); i++) {
-                            builder.setContentText(CodeudorAdapter.str_id.get(i));
-                        }
+                        builder.setContentText("Tienes un nuevo pago compartido en el que te corresponde pagar $"+str_deudaDividida);
 
                         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(GroupWalletActivity.this);
                         managerCompat.notify(1, builder.build());
+
+                        dialog = new ProgressDialog(GroupWalletActivity.this);
+                        dialog.setMessage("Estamos subiendo tu pago");
+                        dialog.show();
+                        subirPago(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
+                        subirPagoCodeudor(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
 
                     }catch (Exception ex){
                         Toast.makeText(GroupWalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
@@ -354,6 +386,30 @@ public class GroupWalletActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void subirPagoCodeudor(String nombre_pago, String descripcion_pago, String valor_pago, String estado, String fechaVencimiento, String horaVencimiento){
+
+        RandomString randomString = new RandomString();
+        String id = randomString.nextString();
+
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        for (int i = 0; i<CodeudorAdapter.str_id.size(); i++) {
+            System.out.println(CodeudorAdapter.str_id.get(i));
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("pagos").child(CodeudorAdapter.str_id.get(i)).child(id);
+
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("id", id);
+            hashMap.put("nombre",nombre_pago);
+            hashMap.put("descripcion", descripcion_pago);
+            hashMap.put("valor", valor_pago);
+            hashMap.put("estado", estado);
+            hashMap.put("fecha_de_vencimiento", fechaVencimiento);
+            hashMap.put("hora_de_vencimiento", horaVencimiento);
+
+            reference.setValue(hashMap);
+
+        }
     }
 
     private void subirGasto(String str_valor_transaccion, String fechaTransaccion, String str_descripcion_transaccion) {
