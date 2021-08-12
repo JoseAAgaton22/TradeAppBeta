@@ -265,7 +265,7 @@ public class GroupWalletActivity extends AppCompatActivity {
                 int codeudores = CodeudorAdapter.str_id.size() + 1;
                 double deudaDividida = pagoTotal/codeudores;
 
-                String str_deudaDividida = String.format("%.2f", deudaDividida);
+                String str_deudaDividida = String.format("%.0f", deudaDividida);
                 String str_nombre_pago = nombre_pago.getText().toString();
                 String str_descripcion_pago = descripcion_pago.getText().toString();
 
@@ -297,6 +297,8 @@ public class GroupWalletActivity extends AppCompatActivity {
                         dialog.show();
                         subirPago(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
                         subirPagoCodeudor(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
+                        subirGasto(str_deudaDividida,fechaVencimiento, str_descripcion_pago);
+                        subirGastoCodeudor(str_deudaDividida,fechaVencimiento, str_descripcion_pago);
 
                     }catch (Exception ex){
                         Toast.makeText(GroupWalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
@@ -314,7 +316,7 @@ public class GroupWalletActivity extends AppCompatActivity {
                 int codeudores = CodeudorAdapter.str_id.size() + 1;
                 double deudaDividida = pagoTotal/codeudores;
 
-                String str_deudaDividida = String.format("%.2f", deudaDividida);
+                String str_deudaDividida = String.format("%.0f", deudaDividida);
                 String str_nombre_pago = nombre_pago.getText().toString();
                 String str_descripcion_pago = descripcion_pago.getText().toString();
 
@@ -347,6 +349,8 @@ public class GroupWalletActivity extends AppCompatActivity {
                         dialog.show();
                         subirPago(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
                         subirPagoCodeudor(str_nombre_pago, str_descripcion_pago, str_deudaDividida, estado, fechaVencimiento, horaVencimiento);
+                        subirGasto(str_deudaDividida,fechaVencimiento, str_descripcion_pago);
+                        subirGastoCodeudor(str_deudaDividida,fechaVencimiento, str_descripcion_pago);
 
                     }catch (Exception ex){
                         Toast.makeText(GroupWalletActivity.this, "Debes introducir un valor numérico", Toast.LENGTH_SHORT).show();
@@ -395,7 +399,6 @@ public class GroupWalletActivity extends AppCompatActivity {
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         for (int i = 0; i<CodeudorAdapter.str_id.size(); i++) {
-            System.out.println(CodeudorAdapter.str_id.get(i));
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("pagos").child(CodeudorAdapter.str_id.get(i)).child(id);
 
             HashMap<String, Object> hashMap = new HashMap<>();
@@ -420,11 +423,31 @@ public class GroupWalletActivity extends AppCompatActivity {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", id);
+        hashMap.put("categoria", "Deudas");
         hashMap.put("valor", str_valor_transaccion);
         hashMap.put("fecha_de_transaccion", fechaTransaccion);
         hashMap.put("descripcion", str_descripcion_transaccion);
 
         Task<Void> reference = FirebaseDatabase.getInstance().getReference("transacciones").child("gastos").child(firebaseUser.getUid()).child(id).setValue(hashMap);
+    }
+
+    private void subirGastoCodeudor(String str_valor_transaccion, String fechaTransaccion, String str_descripcion_transaccion) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        RandomString randomString = new RandomString();
+        String id = randomString.nextString();
+
+        for (int i = 0; i < CodeudorAdapter.str_id.size(); i++) {
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("transacciones").child("gastos").child(CodeudorAdapter.str_id.get(i)).child(id);
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("id", id);
+            hashMap.put("categoria", "Deudas");
+            hashMap.put("valor", str_valor_transaccion);
+            hashMap.put("fecha_de_transaccion", fechaTransaccion);
+            hashMap.put("descripcion", str_descripcion_transaccion);
+
+            reference.setValue(hashMap);
+        }
     }
 
     private String fechaEspecifica(Date firstDayOfNewMonth){

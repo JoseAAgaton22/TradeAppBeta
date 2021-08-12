@@ -322,6 +322,7 @@ public class WalletActivity extends AppCompatActivity {
 
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", id);
+        hashMap.put("categoria", "Deudas");
         hashMap.put("valor", str_valor_transaccion);
         hashMap.put("fecha_de_transaccion", fechaTransaccion);
         hashMap.put("descripcion", str_descripcion_transaccion);
