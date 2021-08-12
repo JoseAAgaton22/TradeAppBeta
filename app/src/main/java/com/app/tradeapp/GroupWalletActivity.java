@@ -284,10 +284,10 @@ public class GroupWalletActivity extends AppCompatActivity {
                 else{
                     try {
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(GroupWalletActivity.this, "Mi notificacion");
-                        builder.setContentTitle("Notificación de prueba");
+                        builder.setContentTitle("¡Tienes una nueva deuda compartida!");
                         builder.setSmallIcon(R.drawable.ic_trade_app);
                         builder.setAutoCancel(true);
-                        builder.setContentText("Tienes un nuevo pago compartido en el que te corresponde pagar $"+str_deudaDividida);
+                        builder.setContentText("Recuerda realizar el pago por valor de $"+str_deudaDividida);
 
                         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(GroupWalletActivity.this);
                         managerCompat.notify(1, builder.build());
@@ -336,10 +336,10 @@ public class GroupWalletActivity extends AppCompatActivity {
                 else{
                     try {
                         NotificationCompat.Builder builder = new NotificationCompat.Builder(GroupWalletActivity.this, "Mi notificacion");
-                        builder.setContentTitle("Notificación de prueba");
+                        builder.setContentTitle("¡Tienes una nueva deuda compartida!");
                         builder.setSmallIcon(R.drawable.ic_trade_app);
                         builder.setAutoCancel(true);
-                        builder.setContentText("Tienes un nuevo pago compartido en el que te corresponde pagar $"+str_deudaDividida);
+                        builder.setContentText("Recuerda realizar el pago por valor de $"+str_deudaDividida);
 
                         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(GroupWalletActivity.this);
                         managerCompat.notify(1, builder.build());
