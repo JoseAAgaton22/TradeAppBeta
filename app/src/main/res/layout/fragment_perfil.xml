@@ -18,17 +18,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--ImageView
-            android:id="@+id/circleImageView"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_marginTop="80dp"
-            android:src="@drawable/ic_launcher_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" /-->
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/foto_perfil"
             android:layout_width="140dp"
