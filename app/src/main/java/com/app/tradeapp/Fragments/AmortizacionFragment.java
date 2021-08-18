@@ -246,13 +246,21 @@ public class AmortizacionFragment extends Fragment {
     private void AmortizacionPeriodo(double tasaInteres, double credito, double cuota) {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
         valor_credito.setText(String.valueOf(numberFormat.format(credito)));
-        double amortizacionPeriodos = Math.log(cuota / (cuota - (credito * tasaInteres))) / Math.log(1 + tasaInteres);
-        String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
-        amortizacion.setText("Pagando cuotas de " + numberFormat.format(cuota) + " saldará su deuda en: ");
-        valor_amortizacion.setText(resultado + " periodos");
-        double pagoTotal = amortizacionPeriodos*cuota;
-        pago_total.setText(String.valueOf(numberFormat.format(pagoTotal)));
-        double interes = pagoTotal - credito;
-        interes_total.setText(String.valueOf(numberFormat.format(interes)));
+        if (cuota - (credito * tasaInteres)>0) {
+            double amortizacionPeriodos = Math.log(cuota / (cuota - (credito * tasaInteres))) / Math.log(1 + tasaInteres);
+            String resultado = String.valueOf(String.format("%.2f", amortizacionPeriodos));
+            amortizacion.setText("Pagando cuotas de " + numberFormat.format(cuota) + " saldará su deuda en: ");
+            valor_amortizacion.setText(resultado + " periodos");
+            double pagoTotal = amortizacionPeriodos*cuota;
+            pago_total.setText(String.valueOf(numberFormat.format(pagoTotal)));
+            double interes = pagoTotal - credito;
+            interes_total.setText(String.valueOf(numberFormat.format(interes)));
+        } else {
+            amortizacion.setText("No es posible adquirir el crédito ingresado pagando cuotas de: ");
+            valor_amortizacion.setText(numberFormat.format(cuota));
+            pago_total.setText("-");
+            interes_total.setText("-");
+        }
+
     }
 }
