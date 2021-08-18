@@ -153,6 +153,7 @@
                 android:fontFamily="@font/poppins_light"
                 android:hint="No. de Periodos"
                 android:inputType="number"
+                android:maxLength="4"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:layout_below="@id/txt_tasaInteres"/>
